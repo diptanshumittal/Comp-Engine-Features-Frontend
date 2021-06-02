@@ -1,5 +1,5 @@
 import React from "react";
-import { useTable, usePagination } from "react-table";
+import { useTable } from "react-table";
 import { Table } from 'reactstrap';
 const TableContainer = ({ columns, data }) => {
     const {

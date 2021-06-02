@@ -1,89 +1,62 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Route, Switch, Redirect , Link } from 'react-router-dom';
+import Navbarcustom from "./Components/Navbarcustom";
+import Home from "./Components/Home";
+import Explore from "./Components/Explore";
+import Contact from "./Components/Contact";
+import Howitworks from "./Components/HowitWorks";
+import Exploremode from "./Components/Exploremode";
+import {useState} from "react";
 import axios from "axios";
-import { useEffect, useState, useMemo } from "react";
-import TableContainer from "./TableContainer"
-import { Container } from "reactstrap"
-import "bootstrap/dist/css/bootstrap.min.css"
-import Bootstraptab1 from "./Bootstraptab1";
-import ScriptTag from 'react-script-tag';
-import useScript from "./useScript";
-import {Helmet} from "react-helmet";
 
 
 const App = () => {
-    const [features, setData] = useState([]);
-    useEffect(() => {
-    axios.get('http://127.0.0.1:8000/api/getfeatures')
-        .then((response) => {
-          console.log(response);
 
-          setData(response.data.data);
-        });
-    }, [])
-    const columns = useMemo(() => [
-            {
-                Header: "ID",
-                accessor: "ID",
-            },
-            {
-                Header: "Name",
-                accessor: "Name",
-            },
-            {
-                Header: "Keywords",
-                accessor: "Keywords",
+    const [featureCode, setFeatureCode] = useState('');
+    const [featureName, setFeatureName] = useState('Upload your .py file here');
+
+    const onFileSubmit = (featurecode, featurename) => {
+        console.log(featurename,featurecode);
+        const formData = new FormData();
+        formData.append('featurecode', featurecode);
+        formData.append('featurename', featurename);
+        axios.post('http://127.0.0.1:8000/result', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
             }
-        ],
-        []
-    )
-    //return <TableContainer columns={columns} data={features} />
-    /*
-    return (
-        <Container style={{ marginTop: 100 }}>
-            <TableContainer columns={columns} data={features} />
-        </Container>
-    );
-    */
-    if(features.length===0){
-        return <div/>
+        }).then((response) => {
+            console.log(response.data);
+        });
     }
+
     return (
-      <div className="App">
-        <h1>Simple Table</h1>
-          <div className="container mt-2 mb-2">
+        <Router>
+            <Navbarcustom/>
+            <div className="content">
+                <Switch>
+                    <Route exact path="/">
+                        <Home sendData={onFileSubmit}/>
+                    </Route>
+                    <Route exact path="/howitworks">
+                        <Howitworks/>
+                    </Route>
+                    <Route exact path="/contact">
+                        <Contact/>
+                    </Route>
+                    <Route exact path="/contribute">
+                        <Home/>
+                    </Route>
+                    <Route exact path="/exploremode/:id/:name">
+                        <Exploremode/>
+                    </Route>
+                    <Route path="/result">
+                    </Route>
+                    <Route exact path="/explore">
+                        <Explore/>
+                    </Route>
+                </Switch>
+            </div>
 
-              <Helmet>
-                  <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.17.1/dist/bootstrap-table.min.css"/>
-                  <script src="https://unpkg.com/bootstrap-table@1.17.1/dist/bootstrap-table.min.js"/>
-                  <script src="https://unpkg.com/bootstrap-table@1.17.1/dist/extensions/filter-control/bootstrap-table-filter-control.min.js"/>
-              </Helmet>
-
-              <table className="table-striped" id="table" data-toggle="table" data-pagination="true" data-filter-control="true"
-                  data-height="640" data-page-size="12" data-page-list="[15,35,55,100]">
-                  <thead className="thead-dark">
-                      <tr>
-                          <th data-field="ID">S.No</th>
-                          <th data-field="Name" data-filter-control="input" data-filter-control-placeholder="Search by feature name">Feature Names
-                          </th>
-                          <th data-field="Keywords" data-filter-control="input" data-filter-control-placeholder="Search by Tags">Tags
-                          </th>
-                      </tr>
-                  </thead>
-                  <tbody>
-                  {
-                      features.map((item) => (
-                          <tr>
-                              <td>{item.ID}</td>
-                              <td><a className="explorelink" href="/exploremode/{{i.ID}}/{{i.Name}}">{item.Name}</a></td>
-                              <td>{item.Keywords}</td>
-                          </tr>
-                      ))
-                  }
-                  </tbody>
-              </table>
-          </div>
-      </div>
+        </Router>
     );
 }
 
