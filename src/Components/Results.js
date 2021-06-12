@@ -1,6 +1,6 @@
 import { Helmet } from "react-helmet";
 
-const Result = ({tabledata, totalmatches, featurename, img, grp}) => {
+const Result = ({tabledata, totalmatches, featurename, img}) => {
     return (
         <div id="resultsec">
             <div class="container">
