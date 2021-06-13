@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
+import {connect} from "react-redux";
+import mapStateToProps from "./mapStateToProps";
+import mapDispatchToProps from "./mapDispatchToProps";
 
 class NavLink extends React.Component {
     render() {
@@ -13,9 +15,4 @@ class NavLink extends React.Component {
         );
     }
 }
-
-NavLink.contextTypes = {
-    router: PropTypes.object
-};
-
-export default NavLink;
+export default connect(mapStateToProps, mapDispatchToProps)(NavLink)

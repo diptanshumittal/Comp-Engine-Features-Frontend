@@ -1,4 +1,7 @@
 import {Helmet} from "react-helmet";
+import {connect} from "react-redux";
+import mapStateToProps from "./mapStateToProps";
+import mapDispatchToProps from "./mapDispatchToProps";
 
 const Contact = () => {
     return (
@@ -6,17 +9,16 @@ const Contact = () => {
             <Helmet>
                 <script src="https://use.fontawesome.com/8ef3ce1ffd.js"></script>
             </Helmet>
-        <div class="container">
-            <p class="display-1">Connect with us</p>
+        <div className="container">
+            <p className="display-1">Connect with us</p>
             <hr/>
-            <p class="lead">Here is how you can reach us. </p>
-            <div class="contact-box">
+            <p className="lead">Here is how you can reach us. </p>
+            <div className="contact-box">
                 <h2>Reach us</h2>
                 <ul>
-                    <li><a target="_blank"
-                           href="https://mail.google.com/mail/?view=cm&fs=1&to=physics.compengine@sydney.edu.au"><i class="fa fa-envelope"></i></a></li>
-                    <li><a target="_blank" href="https://github.com/NeuralSystemsAndSignals/Comp-Engine-Features"><i class="fa fa-github"></i></a></li>
-                    <li><a target="_blank" href="https://twitter.com/compTimeSeries"><i class="fa fa-twitter"/></a></li>
+                    <li><a target="_blank" rel="noreferrer" href="https://mail.google.com/mail/?view=cm&fs=1&to=physics.compengine@sydney.edu.au"><i className="fa fa-envelope"></i></a></li>
+                    <li><a target="_blank" rel="noreferrer" href="https://github.com/NeuralSystemsAndSignals/Comp-Engine-Features"><i className="fa fa-github"></i></a></li>
+                    <li><a target="_blank" rel="noreferrer" href="https://twitter.com/compTimeSeries"><i className="fa fa-twitter"/></a></li>
                 </ul>
             </div>
         </div>
@@ -24,4 +26,4 @@ const Contact = () => {
 
     );
 };
-export default Contact;
+export default connect(mapStateToProps, mapDispatchToProps)(Contact)

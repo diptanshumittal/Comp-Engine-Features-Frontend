@@ -1,4 +1,7 @@
 import img from "../assets/img/Sample Code.png";
+import {connect} from "react-redux";
+import mapStateToProps from "./mapStateToProps";
+import mapDispatchToProps from "./mapDispatchToProps";
 
 const Howitworks = () => {
     return (
@@ -37,7 +40,7 @@ const Howitworks = () => {
                     </div>
                 </div>
 
-                <div class="timeline-container">
+                <div className="timeline-container">
                     <div className="timeline">
                         <ul>
                             <li>
@@ -108,4 +111,4 @@ const Howitworks = () => {
         </div>
     );
 };
-export default Howitworks;
+export default connect(mapStateToProps, mapDispatchToProps)(Howitworks)

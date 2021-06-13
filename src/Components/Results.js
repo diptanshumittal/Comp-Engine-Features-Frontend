@@ -1,25 +1,30 @@
 import { Helmet } from "react-helmet";
+import PlotlyComponent from "./PlotlyComponent";
+import {Link} from "react-router-dom";
+import {connect} from "react-redux";
+import mapStateToProps from "./mapStateToProps";
+import mapDispatchToProps from "./mapDispatchToProps";
 
-const Result = ({tabledata, totalmatches, featurename, img}) => {
+const Result = ({tabledata, totalmatches, featurename, img, graphs}) => {
     return (
         <div id="resultsec">
-            <div class="container">
+            <div className="container">
                 <p className="display-2">Dashboard</p>
-                <hr />
-                <br />
-                <br />
+                <hr/>
+                <br/>
+                <br/>
                 <ul className="list-group">
                     <li className="list-group-item d-flex justify-content-between align-items-center">
                         <b>Feature Name </b>
                         <span className="badge badge-primary badge-pill">
-          {featurename}
-        </span>
+                          {featurename}
+                        </span>
                     </li>
                     <li className="list-group-item d-flex justify-content-between align-items-center">
                         <b>Total Matches </b>
                         <span className="badge badge-primary badge-pill">
-          {totalmatches}
-        </span>
+                          {totalmatches}
+                        </span>
                     </li>
                 </ul>
                 <div className="container mt-2 mb-2">
@@ -32,28 +37,16 @@ const Result = ({tabledata, totalmatches, featurename, img}) => {
                             Download Results
                         </a>
                     </div>
-                    <table
-                        id="table"
-                        data-toolbar="#toolbar"
-                        data-toggle="table"
-                        data-pagination="true"
-                        data-show-toggle="true"
-                        data-show-columns="true"
-                        data-show-fullscreen="true"
-                        data-height="650"
-                        data-page-size="12"
-                        data-page-list="[12,25,50,100]"
-                    >
-                        <thead class="thead-dark">
+                    <table id="table" data-toolbar="#toolbar" data-toggle="table" data-pagination="true"
+                        data-show-toggle="true" data-show-columns="true" data-show-fullscreen="true"
+                        data-height="760" data-page-size="12" data-page-list="[12,25,50,100]" style={{textAlign:"left"}}>
+                        <thead className="thead-dark">
                         <tr>
                             <th data-field="Rank">Rank</th>
                             <th data-field="Name">Name</th>
                             <th data-field="Keywords">Keywords</th>
-                            <th data-field="Signedcorrvalue">Correlation</th>
-                            <th data-field="pvalue">p-value</th>
-                            <th data-field="Corr" data-visible="false">
-                                Absloute-value
-                            </th>
+                            <th data-field="Corr">Correlation</th>
+                            <th data-field="pvalue" data-visible="false" >p-value</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -61,30 +54,31 @@ const Result = ({tabledata, totalmatches, featurename, img}) => {
                             <tr>
                                 <td>{item.Rank}</td>
                                 <td>
-                                    <a
-                                        className="explorelink"
-                                        href={`/exploremode/${item.ID}/${item.Name}`}
-                                    >
-                                        {item.Name}
-                                    </a>
+                                    <Link className="explorelink" to={`/exploremode/${item.ID}/${item.NAME}`}>
+                                        {item.NAME}
+                                    </Link>
                                 </td>
-                                <td>{item.Keywords}</td>
-                                <td>{item.Signedcorrvalue}</td>
-                                <td>{item.pvalue}</td>
-                                <td>{item.Corr}</td>
+                                <td>{item.KEYWORDS}</td>
+                                <td>{item.COEF}</td>
+                                <td>{item.PVALUE}</td>
                             </tr>
                         ))}
                         </tbody>
                     </table>
                     <Helmet>
-                        <link
-                            rel="stylesheet"
-                            href="https://unpkg.com/bootstrap-table@1.17.1/dist/bootstrap-table.min.css"
-                        />
+                        <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.17.1/dist/bootstrap-table.min.css"/>
                         <script src="https://unpkg.com/bootstrap-table@1.17.1/dist/bootstrap-table.min.js" />
                         <script src="https://unpkg.com/bootstrap-table@1.17.1/dist/extensions/filter-control/bootstrap-table-filter-control.min.js" />
                     </Helmet>
-
+                    <hr/>
+                    <br/>
+                    <br/>
+                    {graphs.map((graph) => (
+                        <PlotlyComponent xdata={graph.xdata} ydata={graph.ydata} xtit={graph.xtit} ytit={graph.ytit} title={graph.title}/>
+                    ))}
+                    <hr/>
+                    <br/>
+                    <br/>
                     <img
                         className="clustermap"
                         src={`data:image/png;base64,${img}`}
@@ -98,5 +92,4 @@ const Result = ({tabledata, totalmatches, featurename, img}) => {
 
     );
 };
-
-export default Result;
+export default connect(mapStateToProps, mapDispatchToProps)(Result)

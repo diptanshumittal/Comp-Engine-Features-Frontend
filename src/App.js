@@ -1,61 +1,31 @@
-import { BrowserRouter as Router, Route, Switch, Redirect , Link } from 'react-router-dom';
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import Navbarcustom from "./Components/Navbarcustom";
 import Home from "./Components/Home";
 import Explore from "./Components/Explore";
 import Contact from "./Components/Contact";
 import Howitworks from "./Components/HowitWorks";
 import Exploremode from "./Components/Exploremode";
-import {useState} from "react";
-import axios from "axios";
-import PlotlyComponent from "./Components/PlotlyComponent";
-import {Col, Row} from "reactstrap";
-import {Grid} from "@material-ui/core";
-import { useHistory} from "react-router-dom";
+import {useEffect, useState} from "react";
 import UserFeatureSubmitted from "./Components/UserFeatureSubmitted";
+import Contribute from "./Components/Contribute";
+import {connect} from "react-redux";
+import axios from "axios";
+import mapStateToProps from "./Components/mapStateToProps";
+import mapDispatchToProps from "./Components/mapDispatchToProps";
 
-
-const App = () => {
-    const history = useHistory();
+const App = (props) => {
     const [featureCode, setFeatureCode] = useState('');
     const [featureName, setFeatureName] = useState('Upload your .py file here');
-    const data = [{
-        x: [1, 2, 3, 5,6,7,8,9,5,5,5],
-        y: [2, 6, 3, 5,5,5,5,5,5,5,5],
-        mode: 'markers',
-    }]
-    const layout = {
-        title: 'A Fancy Plot',
-        xaxis: {
-            title: {
-                text: 'Myaxis'
-            },
-        },
-        yaxis: {
-            title: {
-                text: 'y'
-            }
-        },
-
-    }
-    const config = {displayModeBar: false}
-
     const onFileSubmit = (featurecode, featurename) => {
-        console.log(featurename,featurecode);
-        const formData = new FormData();
         setFeatureCode(featurecode);
         setFeatureName(featurename);
-        history.push("/results")
-
-        formData.append('featurecode', featureCode);
-        formData.append('featurename', featureName);
-        axios.post('http://127.0.0.1:8000/result', formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            }
-        }).then((response) => {
-            console.log(response.data);
-        });
     }
+    useEffect(() => {
+        axios.get(props.url+'api/getfeatures')
+            .then((response) => {
+                props.addFeatures(response.data.data);
+            });
+    }, [])
 
     return (
         <Router>
@@ -72,7 +42,7 @@ const App = () => {
                         <Contact/>
                     </Route>
                     <Route exact path="/contribute">
-                        <Home/>
+                        <Contribute/>
                     </Route>
                     <Route exact path="/exploremode/:id/:name">
                         <Exploremode/>
@@ -87,23 +57,19 @@ const App = () => {
                     </Route>
                 </Switch>
             </div>
-            <Grid container item xs={12}>
-                <Grid item xs={3}>
-                    <PlotlyComponent data={data} layout={layout} config={config}/>
-                </Grid>
-                <Grid item xs={3}>
-                    <PlotlyComponent data={data} layout={layout} config={config}/>
-                </Grid>
-                <Grid item xs={3}>
-                    <PlotlyComponent data={data} layout={layout} config={config}/>
-                </Grid>
-                <Grid item xs={3}>
-                    <PlotlyComponent data={data} layout={layout} config={config}/>
-                </Grid>
-            </Grid>
-
         </Router>
     );
+    /*
+    <Grid container item xs={12}>
+                <Grid item xs={3}>
+                </Grid>
+                <Grid item xs={3}>
+                </Grid>
+                <Grid item xs={3}>
+                </Grid>
+                <Grid item xs={3}>
+                </Grid>
+            </Grid>
+     */
 }
-
-export default App;
+export default connect(mapStateToProps, mapDispatchToProps)(App)

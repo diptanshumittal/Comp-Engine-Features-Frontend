@@ -1,4 +1,7 @@
 import img2 from "../assets/img/preloader.gif";
+import {connect} from "react-redux";
+import mapStateToProps from "./mapStateToProps";
+import mapDispatchToProps from "./mapDispatchToProps";
 
 const Pageloader = () => {
     return (
@@ -12,5 +15,4 @@ const Pageloader = () => {
         </div>
     );
 };
-
-export default Pageloader;
+export default connect(mapStateToProps, mapDispatchToProps)(Pageloader)
