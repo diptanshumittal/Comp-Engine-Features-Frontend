@@ -6,6 +6,9 @@ import {Redirect} from "react-router-dom";
 import {connect} from "react-redux";
 import mapStateToProps from "./mapStateToProps";
 import mapDispatchToProps from "./mapDispatchToProps";
+import Timeout from "./Timeout";
+import SyntaxError from "./SyntaxError";
+import WarningPage from "./WarningPage";
 
 const UserFeatureSubmitted = (props) => {
     const [isPending, changeIsPending] = useState(true);
@@ -15,6 +18,7 @@ const UserFeatureSubmitted = (props) => {
     const [img, changeImage] = useState("");
     const [graphs, changeGraphs] = useState("");
     const [stat, changeStat] = useState("");
+    const [timeseriesnames, changeTimeSeriesNames] = useState([]);
 
     useEffect(() => {
         props.addLinkCount()
@@ -22,7 +26,7 @@ const UserFeatureSubmitted = (props) => {
         const formData = new FormData();
         formData.append('featurecode', props.featureCode);
         formData.append('featurename', props.featureName);
-        axios.post(props.url+'result', formData, {
+        axios.post(props.url+'api/result', formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
@@ -34,6 +38,7 @@ const UserFeatureSubmitted = (props) => {
                 changeFname(response.data.featurename);
                 changeImage(response.data.heatmap);
                 changeGraphs(response.data.graph);
+                changeTimeSeriesNames(response.data.timeseriesnames);
             }
             changeStat(response.data.stat)
             changeIsPending(false);
@@ -45,19 +50,16 @@ const UserFeatureSubmitted = (props) => {
             {isPending && <Pageloader/>}
             {!isPending && stat === 1 &&
             <Result tabledata={tableData} totalmatches={totalMatches} featurename={featurename} img={img}
-                    graphs={graphs}/>
+                    graphs={graphs} timeseriesnames={timeseriesnames}/>
             }
             {!isPending && stat === 2 &&
-            <Result tabledata={tableData} totalmatches={totalMatches} featurename={featurename} img={img}
-                    graphs={graphs}/>
+            <SyntaxError/>
             }
             {!isPending && stat === 3 &&
-            <Result tabledata={tableData} totalmatches={totalMatches} featurename={featurename} img={img}
-                    graphs={graphs}/>
+            <WarningPage/>
             }
             {!isPending && stat === 4 &&
-            <Result tabledata={tableData} totalmatches={totalMatches} featurename={featurename} img={img}
-                    graphs={graphs}/>
+            <Timeout />
             }
             {!isPending && stat === 5 && <Redirect to="/"/>}
         </div>

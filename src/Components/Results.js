@@ -5,7 +5,7 @@ import {connect} from "react-redux";
 import mapStateToProps from "./mapStateToProps";
 import mapDispatchToProps from "./mapDispatchToProps";
 
-const Result = ({tabledata, totalmatches, featurename, img, graphs}) => {
+const Result = ({tabledata, totalmatches, featurename, img, graphs, timeseriesnames}) => {
     return (
         <div id="resultsec">
             <div className="container">
@@ -74,7 +74,7 @@ const Result = ({tabledata, totalmatches, featurename, img, graphs}) => {
                     <br/>
                     <br/>
                     {graphs.map((graph) => (
-                        <PlotlyComponent xdata={graph.xdata} ydata={graph.ydata} xtit={graph.xtit} ytit={graph.ytit} title={graph.title}/>
+                        <PlotlyComponent xdata={graph.xdata} ydata={graph.ydata} xtit={graph.xtit} ytit={graph.ytit} title={graph.title} timeseriesnames={timeseriesnames}/>
                     ))}
                     <hr/>
                     <br/>

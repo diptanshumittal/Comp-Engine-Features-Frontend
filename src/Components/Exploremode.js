@@ -16,14 +16,17 @@ const Exploremode = (props) => {
     const [featurename, changeFname] = useState("");
     const [img, changeImage] = useState("");
     const [graph, changeGraph] = useState([]);
+    const [timeseriesnames, changeTimeSeriesNames] = useState([]);
 
     useEffect(() => {
         props.addLinkCount()
         axios.get(url).then((response) => {
+            console.log(response);
             changeTabledata(response.data.tabledata);
             changeMatches(response.data.totalmatches);
             changeFname(response.data.featurename);
             changeImage(response.data.heatmap);
+            changeTimeSeriesNames(response.data.timeseriesnames);
             changeGraph(response.data.graph);
             changeIsPending(false);
         });
@@ -32,7 +35,7 @@ const Exploremode = (props) => {
     return (
         <div>
               {isPending && <Pageloader/>      }
-              {!isPending && <Result tabledata={tableData} totalmatches={totalMatches} featurename={featurename} img={img} graphs={graph}/>}
+              {!isPending && <Result tabledata={tableData} totalmatches={totalMatches} featurename={featurename} img={img} graphs={graph} timeseriesnames={timeseriesnames}/>}
         </div>
     );
 };

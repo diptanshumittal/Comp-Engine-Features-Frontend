@@ -79,7 +79,7 @@ body {
 }
 
 #pageloader {
-  background: rgb(245, 245, 220);
+  background: rgb(255, 255, 255);
   height: 100%;
   position: fixed;
   width: 100%;
@@ -232,26 +232,25 @@ body {
   }
 }
 
-
 #howitworkssec {
-  background-color:beige;
+  background-color:white;
 
 
   .container{
-    background-color: beige;
+    background-color: white;
     text-align: center;
     padding: 30px;
   }
 
   .section{
-    background-color:beige;
+    background-color:white;
     display: flex;
     margin-top: 50px;
     padding-top: 5%;
   }
 
   .section .left{
-    background-color: beige;
+    background-color: white;
     width: 50%;
     height: 600px;
   }
@@ -427,9 +426,6 @@ body {
   }
 }
 
-
-
-
 #resultsec {
   background-color: white;
 
@@ -506,5 +502,129 @@ body {
 
   .custom-file-label {
     text-align: initial;
+  }
+}
+
+#timeout{
+  body{
+    background-color: white;
+  }
+
+  .container{
+    margin-top: 10%;
+    text-align: center;
+  }
+
+  .lead{
+    font-size: 30px;
+  }
+
+  a{
+    color: white;
+  }
+
+
+  a:hover{
+    color: white;
+  }
+}
+
+#syntaxerror{
+  body{
+    background-color: white;
+    text-align: center;
+  }
+
+  .display-2{
+    margin-top: 15%;
+  }
+
+  .lead{
+    font-size: 30px;
+  }
+
+  a{
+    color: white;
+  }
+
+  button{
+    margin-top: 3%;
+    width: 150px;
+    height: 50px;
+  }
+
+  a:hover{
+    color:beige;
+  }
+}
+
+#warningpage{
+  body{
+    background-color: white;
+  }
+
+  .container{
+    background-color: white;
+    margin-top: 8%;
+    height: 650px;
+  }
+
+  .splitsection{
+    display: flex;
+
+  }
+
+  .left{
+    background-color: #212529;
+    height: 130px;
+    width: 20%;
+
+  }
+  .left img{
+
+    width: 150px;
+    height: 120px;
+    margin-left: 30%;
+
+
+  }
+  .right{
+    background-color: #212529;
+    padding: 10px;
+    text-align: center;
+    height: 130px;
+    width: 80%;
+    color: white;
+
+  }
+
+  .subheading p{
+    margin-top: 2%;
+    text-align: center;
+    font-size: 30px;
+  }
+
+  .instructions{
+    padding-top: 30px;
+    display: flex;
+  }
+
+  .leftside{
+    margin-left: 3%;
+  }
+  .rightside img{
+    margin-left: 25%;
+    height: 300px;
+    width: 300px;
+  }
+
+  .instructions .list-group li{
+    font-size: 20px;
+    margin-right:10%;
+
+  }
+
+  .notes .lead{
+    margin-top: 10%;
   }
 }

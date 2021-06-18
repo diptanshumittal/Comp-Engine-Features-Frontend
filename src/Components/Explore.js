@@ -1,7 +1,7 @@
 import img2 from "../assets/img/preloader.gif";
-import {Helmet} from "react-helmet";
-import {Link} from "react-router-dom";
-import {connect} from "react-redux";
+import { Helmet } from "react-helmet";
+import { Link } from 'react-router-dom';
+import { connect } from "react-redux";
 import mapStateToProps from "./mapStateToProps";
 import mapDispatchToProps from "./mapDispatchToProps";
 
@@ -48,8 +48,7 @@ const Explore = (props) => {
                             props.features.map((item) => (
                                 <tr>
                                     <td>{item.ID}</td>
-                                    <td><Link className="explorelink"
-                                              to={`/exploremode/${item.ID}/${item.NAME}`}>{item.NAME}</Link></td>
+                                    <td><Link to={`/exploremode/${item.ID}/${item.NAME}`}>{item.NAME}>{item.NAME}</Link></td>
                                     <td>{item.KEYWORDS}</td>
                                 </tr>
                             ))
