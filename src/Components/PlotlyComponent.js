@@ -5,7 +5,7 @@ import {connect} from "react-redux";
 import mapStateToProps from "./mapStateToProps";
 import mapDispatchToProps from "./mapDispatchToProps";
 
-function PlotlyComponent({xdata, ydata, xtit, ytit, title, timeseriesnames}) {
+function PlotlyComponent({xdata, ydata, xtit, ytit, title, timeseriesnames, handlePlotClick}) {
     const randomColor = Math.floor(Math.random()*16777215).toString(16);
     const data = [{
         x: xdata,
@@ -37,7 +37,7 @@ function PlotlyComponent({xdata, ydata, xtit, ytit, title, timeseriesnames}) {
         height: 320,
         yaxis: {
             title: {
-                text: xtit,
+                text: ytit,
                 standoff: 15,
                 font: {
                     size: 12
@@ -52,7 +52,7 @@ function PlotlyComponent({xdata, ydata, xtit, ytit, title, timeseriesnames}) {
         },
         xaxis: {
             title: {
-                text: ytit,
+                text: xtit,
                 standoff: 10,
                 font: {
                     size: 12
@@ -69,15 +69,13 @@ function PlotlyComponent({xdata, ydata, xtit, ytit, title, timeseriesnames}) {
 
     }
     const Plot = createPlotlyComponent(Plotly);
-    function handleClick(data) {
-        console.log(data);
-    }
     return (
         <Plot
             data={data}
             layout={layout}
-            config={{modeBarButtonsToRemove: ['toImage']}}//{{displayModeBar: false}}
-            onclick = {(data) => handleClick(data)}
+            config={{ modeBarButtonsToRemove: ['zoom2d', 'pan2d', 'select2d', 'zoomIn2d', 'zoomOut2d', 'autoScale2d', 'resetScale2d', 'hoverClosestCartesian', 'hoverCompareCartesian'],
+                      displaylogo: false}}
+            onClick={(data) => handlePlotClick(data)}
         />
     );
 }

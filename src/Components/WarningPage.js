@@ -28,11 +28,14 @@ const WarningPage = (props) => {
                         </li>
                         <li className="list-group-item">Does not use functions or import modules that are not allowed.
                         </li>
-                        <li className="list-group-item">Follows the structure as described <Link to="/howitworks" onClick={props.addLinkCount}>here</Link>.
+                        <li className="list-group-item">Follows the structure as described <Link to="/howitworks"
+                                                                                                 onClick={props.addLinkCount}>here</Link>.
                         </li>
                     </ul>
                     <div className="notes">
-                        <p className="lead"><strong>If the problem persists, <Link to="/contact" onClick={props.addLinkCount}>Write us here </Link>raise
+                        <p className="lead"><strong>If the problem persists, <Link to="/contact"
+                                                                                   onClick={props.addLinkCount}>Write us
+                            here </Link>raise
                             an issue on <Link to="/" onClick={props.addLinkCount}>GitHub</Link></strong></p>
                     </div>
                 </div>
