@@ -7,11 +7,14 @@ import mapDispatchToProps from "./mapDispatchToProps";
 
 function PlotlyComponent({xdata, ydata, xtit, ytit, title, timeseriesnames, handlePlotClick}) {
     const randomColor = Math.floor(Math.random()*16777215).toString(16);
+    const xData = [].concat(...xdata);
+    const yData = [].concat(...ydata);
+    const timeSeriesNames = [].concat(...timeseriesnames);
     const data = [{
-        x: xdata,
-        y: ydata,
+        x: xData,
+        y: yData,
         mode: 'markers',
-        text: timeseriesnames,
+        text: timeSeriesNames,
         //hovertemplate:  'X: %{x}' + 'Y: %{y}' + '<b>%{text}</b>' +'<extra></extra>',
         marker:{
             color: randomColor,

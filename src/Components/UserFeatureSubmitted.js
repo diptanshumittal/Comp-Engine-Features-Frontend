@@ -19,6 +19,7 @@ const UserFeatureSubmitted = (props) => {
     const [graphs, changeGraphs] = useState("");
     const [stat, changeStat] = useState("");
     const [timeseriesnames, changeTimeSeriesNames] = useState([]);
+    const [timeseriescategory, changeTimeSeriesCategory] = useState([]);
 
     useEffect(() => {
         props.addLinkCount()
@@ -39,6 +40,7 @@ const UserFeatureSubmitted = (props) => {
                 changeImage(response.data.heatmap);
                 changeGraphs(response.data.graph);
                 changeTimeSeriesNames(response.data.timeseriesnames);
+                changeTimeSeriesCategory(response.data.timeseriescategory);
             }
             changeStat(response.data.stat)
             changeIsPending(false);
@@ -50,7 +52,7 @@ const UserFeatureSubmitted = (props) => {
             {isPending && <Pageloader/>}
             {!isPending && stat === 1 &&
             <Result tabledata={tableData} totalmatches={totalMatches} featurename={featurename} img={img}
-                    graphs={graphs} timeseriesnames={timeseriesnames}/>
+                    graphs={graphs} timeseriesnames={timeseriesnames} timeseriescategory={timeseriescategory}/>
             }
             {!isPending && stat === 2 &&
             <SyntaxError/>

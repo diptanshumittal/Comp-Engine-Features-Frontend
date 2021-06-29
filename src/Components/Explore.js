@@ -24,6 +24,8 @@ const columns = [
         field: 'ID',
         type: 'number',
         headerName: 'S.No',
+        headerAlign: 'left',
+        align: 'left',
         headerClassName: 'super-app-theme--header',
         label: 'NAME',
         flex: 0.1,
@@ -110,7 +112,6 @@ const Explore = (props) => {
                         </p>
                     </div>
                     <StylingCellsGrid features={props.features}/>
-
                     {false &&
                     <table className="table-striped" id="table" data-toggle="table" data-pagination="true"
                            data-filter-control="true"
@@ -140,6 +141,7 @@ const Explore = (props) => {
                         </tbody>
                     </table>
                     }
+                    {false &&
                     <Helmet>
                         <link rel="stylesheet"
                               href="https://unpkg.com/bootstrap-table@1.17.1/dist/bootstrap-table.min.css"/>
@@ -147,6 +149,7 @@ const Explore = (props) => {
                         <script
                             src="https://unpkg.com/bootstrap-table@1.17.1/dist/extensions/filter-control/bootstrap-table-filter-control.min.js"/>
                     </Helmet>
+                    }
                 </div>
             )}
         </div>

@@ -1,6 +1,6 @@
-import { Helmet } from "react-helmet";
+import {Helmet} from "react-helmet";
 import PlotlyComponent from "./PlotlyComponent";
-import {Link} from "react-router-dom";
+import {Link} from 'react-router-dom';
 import {connect} from "react-redux";
 import mapStateToProps from "./mapStateToProps";
 import mapDispatchToProps from "./mapDispatchToProps";
@@ -10,11 +10,16 @@ import CustomDialogBox from "./CustomDialogBox";
 import {DataGrid, GridToolbar} from "@material-ui/data-grid";
 import Tooltip from "@material-ui/core/Tooltip";
 import {makeStyles} from "@material-ui/styles";
+import {Category} from "@material-ui/icons";
+import CategoryPlot from "./CategoryPlot";
+import ToggleButton from '@material-ui/lab/ToggleButton';
+import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
+
 
 function createLink(params) {
-    return (<Link to={`/exploremode/${params.row.ID}/${params.row.NAME}`}><Tooltip title={params.row.NAME}>
+    return (<a href={`/exploremode/${params.row.ID}/${params.row.NAME}`}><Tooltip title={params.row.NAME}>
         <span className="table-cell-trucate">{params.row.NAME}</span>
-    </Tooltip></Link>);
+    </Tooltip></a>);
 }
 
 const columns = [
@@ -83,6 +88,7 @@ function StylingCellsGrid(props) {
     return (
         <div style={{height: 730, width: '100%'}} className={classes.root}>
             <DataGrid pagination disableSelectionOnClick rowBuffer={20} rows={props.features} columns={columns}
+                      rowHeight={35}
                       components={{
                           Toolbar: GridToolbar,
                       }}/>
@@ -98,17 +104,22 @@ const Result = (props) => {
     const [xdata, setXData] = React.useState(true);
     const [ydata, setYdata] = React.useState(true);
     const [title, setTitle] = React.useState(true);
+    const [visualization, setVisualisation] = React.useState(false);
 
     const handlePlotClick = (data) => {
         const index = data.points[0].pointIndex
         console.log(index)
-        axios.get(props.url + 'api/gettimeseries/'+index).then((response) => {
+        axios.get(props.url + 'api/gettimeseries/' + index).then((response) => {
             console.log(response)
             setYdata(response.data.ydata)
             setXData(response.data.xdata)
             setTitle(response.data.name)
             setOpenDialog(true)
         });
+    }
+
+    const setVisualization = (event, newAlignment) => {
+        setVisualisation(newAlignment)
     }
     return (
         <div id="resultsec">
@@ -133,27 +144,21 @@ const Result = (props) => {
                     </li>
                 </ul>
                 <div className="container mt-2 mb-2">
-                    <div id="toolbar" className="download button">
-                        <a
-                            className="btn btn-dark btn"
-                            href="{{featurename}}\download"
-                            download="Best-matching-features"
-                        >
-                            Download Results
-                        </a>
-                    </div>
                     <br/>
                     <StylingCellsGrid features={props.tabledata}/>
+                    <br/>
+                    {false &&
                     <table id="table" data-toolbar="#toolbar" data-toggle="table" data-pagination="true"
-                        data-show-toggle="true" data-show-columns="true" data-show-fullscreen="true"
-                        data-height="760" data-page-size="12" data-page-list="[12,25,50,100]" style={{textAlign:"left"}}>
+                           data-show-toggle="true" data-show-columns="true" data-show-fullscreen="true"
+                           data-height="760" data-page-size="12" data-page-list="[12,25,50,100]"
+                           style={{textAlign: "left"}}>
                         <thead className="thead-dark">
                         <tr>
                             <th data-field="Rank">Rank</th>
                             <th data-field="Name">Name</th>
                             <th data-field="Keywords">Keywords</th>
                             <th data-field="Corr">Correlation</th>
-                            <th data-field="pvalue" data-visible="false" >p-value</th>
+                            <th data-field="pvalue" data-visible="false">p-value</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -171,21 +176,38 @@ const Result = (props) => {
                             </tr>
                         ))}
                         </tbody>
-                    </table>
-                    <Helmet>
-                        <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.17.1/dist/bootstrap-table.min.css"/>
-                        <script src="https://unpkg.com/bootstrap-table@1.17.1/dist/bootstrap-table.min.js" />
-                        <script src="https://unpkg.com/bootstrap-table@1.17.1/dist/extensions/filter-control/bootstrap-table-filter-control.min.js" />
-                    </Helmet>
+                    </table>}
                     <hr/>
                     <br/>
-                    <br/>
-                    {props.graphs.map((graph) => (
-                        <PlotlyComponent xdata={graph.xdata} ydata={graph.ydata} xtit={graph.xtit} ytit={graph.ytit} title={graph.title} timeseriesnames={props.timeseriesnames} handlePlotClick={handlePlotClick}/>
-                    ))}
-                    <hr/>
-                    <br/>
-                    <br/>
+                    <ToggleButtonGroup
+                        exclusive
+                        onChange={setVisualization}
+                        style={{width: '100%'}}
+                    >
+                        <ToggleButton value="scatterPlot" style={{width: '33%'}}>
+                            Scatter Plot
+                        </ToggleButton>
+                        <ToggleButton value="categoryPlot" style={{width: '33%'}}>
+                            Category Plot
+                        </ToggleButton>
+                        <ToggleButton value="heatmap" style={{width: '33%'}}>
+                            Heatmap
+                        </ToggleButton>
+                    </ToggleButtonGroup>
+                    <div style={{overflow:"scroll",overflowX:"hidden",height:"850px", width:"100%",border: "1px solid rgba(0,0,0,0.12)"}}> <br/>
+                    {visualization === "scatterPlot" &&
+                    props.graphs.map((graph) => (
+                        <PlotlyComponent xdata={graph.xdata} ydata={graph.ydata} xtit={graph.xtit} ytit={graph.ytit}
+                                         title={graph.title} timeseriesnames={props.timeseriesnames}
+                                         handlePlotClick={handlePlotClick}/>
+                    ))
+                    }
+                    {visualization === "categoryPlot" &&
+                    <CategoryPlot graphs={props.graphs} timeseriesnames={props.timeseriesnames}
+                                  timeseriescategory={props.timeseriescategory}/>
+                    }
+                    {visualization === "heatmap" &&
+
                     <img
                         className="clustermap"
                         src={`data:image/png;base64,${props.img}`}
@@ -193,6 +215,8 @@ const Result = (props) => {
                         height="850"
                         width="850"
                     />
+                    }
+                    </div>
                 </div>
             </div>
         </div>

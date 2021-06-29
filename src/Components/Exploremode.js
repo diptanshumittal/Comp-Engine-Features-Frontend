@@ -17,6 +17,7 @@ const Exploremode = (props) => {
     const [img, changeImage] = useState("");
     const [graph, changeGraph] = useState([]);
     const [timeseriesnames, changeTimeSeriesNames] = useState([]);
+    const [timeseriescategory, changeTimeSeriesCategory] = useState([]);
 
     useEffect(() => {
         props.addLinkCount()
@@ -27,6 +28,7 @@ const Exploremode = (props) => {
             changeImage(response.data.heatmap);
             changeTimeSeriesNames(response.data.timeseriesnames);
             changeGraph(response.data.graph);
+            changeTimeSeriesCategory(response.data.timeseriescategory);
             changeIsPending(false);
         });
     }, [])
@@ -34,7 +36,7 @@ const Exploremode = (props) => {
     return (
         <div>
               {isPending && <Pageloader/>      }
-              {!isPending && <Result tabledata={tableData} totalmatches={totalMatches} featurename={featurename} img={img} graphs={graph} timeseriesnames={timeseriesnames}/>}
+              {!isPending && <Result tabledata={tableData} totalmatches={totalMatches} featurename={featurename} img={img} graphs={graph} timeseriesnames={timeseriesnames} timeseriescategory={timeseriescategory}/>}
         </div>
     );
 };
