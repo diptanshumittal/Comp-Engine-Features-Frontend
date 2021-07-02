@@ -42,7 +42,7 @@ const setplotdata = (props, ind) => {
             }
         },
         width: 1000,
-        height: 450,
+        height: 500,
         yaxis: {
             title: {
                 text: props.graphs[ind].ytit,
@@ -75,7 +75,6 @@ const setplotdata = (props, ind) => {
         },
         plot_bgcolor: '#ededed',
         showlegend: true,
-        legend: {"orientation": "h"}
     }
     for (let i = 0; i < props.timeseriescategory.length; i++) {
         let dic = {

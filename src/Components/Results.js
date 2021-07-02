@@ -194,7 +194,7 @@ const Result = (props) => {
                             Heatmap
                         </ToggleButton>
                     </ToggleButtonGroup>
-                    <div style={{overflow:"scroll",overflowX:"hidden",height:"850px", width:"100%",border: "1px solid rgba(0,0,0,0.12)"}}> <br/>
+                    <div style={{overflow:"scroll",overflowX:"hidden",height:"825px", width:"100%",border: "1px solid rgba(0,0,0,0.12)"}}> <br/>
                     {visualization === "scatterPlot" &&
                     props.graphs.map((graph) => (
                         <PlotlyComponent xdata={graph.xdata} ydata={graph.ydata} xtit={graph.xtit} ytit={graph.ytit}
