@@ -5,7 +5,7 @@ import {connect} from "react-redux";
 import mapStateToProps from "./mapStateToProps";
 import mapDispatchToProps from "./mapDispatchToProps";
 import axios from "axios";
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
@@ -24,25 +24,33 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const setplotdata = (props, ind) => {
-    console.log(ind)
+    let x = 0
     let grdata = [];
+    let colors = ['blue', 'orange', 'green', 'red', 'purple']
     const layout = {
         hovermode: 'closest',
         autosize: false,
         margin: {
             l: 55,
             b: 90,
-            t: 27,
-            r:5
+            t: 30,
+            r: 65,
+        },
+        showlegend: true,
+        legend: {
+            x: 1,
+            y: 1,
+            itemwidth: 10
         },
         title: {
-            text: props.graphs[ind].ytit +'    |    '+ props.graphs[ind].title,
+            text: props.graphs[ind].ytit + '    |    ' + props.graphs[ind].title,
             font: {
                 size: 18
-            }
+            },
+            x: 0.06,
         },
-        width: 1000,
-        height: 500,
+        width: 714 + x,
+        height: 500 + x,
         yaxis: {
             title: {
                 text: props.graphs[ind].ytit,
@@ -74,7 +82,7 @@ const setplotdata = (props, ind) => {
             linewidth: 2
         },
         plot_bgcolor: '#ededed',
-        showlegend: true,
+
     }
     for (let i = 0; i < props.timeseriescategory.length; i++) {
         let dic = {
@@ -84,7 +92,8 @@ const setplotdata = (props, ind) => {
             text: props.timeseriesnames[i],
             name: props.timeseriescategory[i],
             marker: {
-                size: 5
+                color: colors[i],
+                size: Array.from(Array(props.graphs[ind].xdata[i].length).fill(5))
             }
         }
         grdata.push(dic);
@@ -93,32 +102,31 @@ const setplotdata = (props, ind) => {
 
 }
 
-const timeseriesplot = (xdata, ydata, title) => {
+const timeseriesplot = (xdata, ydata, title, color) => {
     const data = [{
         x: xdata,
         y: ydata,
         mode: 'lines',
-        marker:{
-            size:3,
-            line: {
-                width: 0.5},
-            opacity: 0.8
-        }
+        color: color,
+        line: {
+            width: 1,
+            color: color
+        },
     }]
     const layout = {
         hovermode: 'closest',
         autosize: false,
         margin: {
             l: 55,
-            r: 5,
+            r: 30,
             b: 100,
             t: 22,
         },
-        pad:{
-            l:10,
-            b:0,
-            t:0,
-            r:0
+        pad: {
+            l: 10,
+            b: 0,
+            t: 0,
+            r: 0
         },
         title: {
             text: title,
@@ -135,7 +143,7 @@ const timeseriesplot = (xdata, ydata, title) => {
         xaxis: {
             zerolinecolor: '#000000',
             zerolinewidth: 1,
-            range: [-10, xdata.length]
+            range: [-Math.floor(xdata.length*0.005), Math.floor(xdata.length*1.005)]
         },
         plot_bgcolor: '#ededed'
     }
@@ -148,18 +156,28 @@ function CategoryPlot(props) {
     const classes = useStyles();
     const [featureData, setFeatureData] = React.useState(false);
     const [featureLayout, setFeatureLayout] = React.useState(false);
+    const [lastclickIndex, setLastclickIndex] = React.useState(0);
+    const [lastclickCurve, setLastclickCurve] = React.useState(0);
     const handleChange = (event) => {
         const graph = setplotdata(props, event.target.value)
         setFeatureData(graph[0])
         setFeatureLayout(graph[1])
     };
     const handlePlotClick = (data) => {
-        const index = data.points[0].text
+        let cn = data.points[0].curveNumber;
+        let pn = data.points[0].pointNumber;
+        let gdata = featureData;
+        gdata[cn].marker.size[pn] = 20;
+        gdata[lastclickCurve].marker.size[lastclickIndex] = 5;
+        setLastclickIndex(pn);
+        setLastclickCurve(cn);
+        setFeatureData(gdata);
+        const index = data.points[0].text;
         axios.get(props.url + 'api/gettimeseries/' + index).then((response) => {
-            const ydata = response.data.ydata
-            const xdata = response.data.xdata
-            const title = response.data.name
-            const [tdata, tlay] = timeseriesplot(xdata, ydata, title)
+            const ydata = response.data.ydata;
+            const xdata = response.data.xdata;
+            const title = response.data.name;
+            const [tdata, tlay] = timeseriesplot(xdata, ydata, title, data.points[0].data.marker.color)
             setTimeseriesdata(tdata)
             setTimeserieslayout(tlay)
         });
@@ -175,7 +193,7 @@ function CategoryPlot(props) {
                     autoWidth
                     onChange={handleChange}
                 >
-                    {props.graphs.map((graph,index) => (
+                    {props.graphs.map((graph, index) => (
                         <MenuItem value={index}>{graph.ytit}</MenuItem>
                     ))}
                 </Select>

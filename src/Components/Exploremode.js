@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import {useParams} from "react-router-dom";
 import Result from "./Results";
 import Pageloader from "./Pageloader";
 import {connect} from "react-redux";
@@ -8,8 +8,8 @@ import mapStateToProps from "./mapStateToProps";
 import mapDispatchToProps from "./mapDispatchToProps";
 
 const Exploremode = (props) => {
-    const { id, name } = useParams();
-    const url = props.url+"api/exploremode/" + id + "/" + name;
+    const {id, name} = useParams();
+    const url = props.url + "api/exploremode/" + id + "/" + name
     const [isPending, changeIsPending] = useState(true);
     const [tableData, changeTabledata] = useState([]);
     const [totalMatches, changeMatches] = useState(0);
@@ -18,10 +18,11 @@ const Exploremode = (props) => {
     const [graph, changeGraph] = useState([]);
     const [timeseriesnames, changeTimeSeriesNames] = useState([]);
     const [timeseriescategory, changeTimeSeriesCategory] = useState([]);
-
     useEffect(() => {
+        changeIsPending(true);
         props.addLinkCount()
         axios.get(url).then((response) => {
+            console.log("response rec :", response.data.featurename);
             changeTabledata(response.data.tabledata);
             changeMatches(response.data.totalmatches);
             changeFname(response.data.featurename);
@@ -31,12 +32,15 @@ const Exploremode = (props) => {
             changeTimeSeriesCategory(response.data.timeseriescategory);
             changeIsPending(false);
         });
-    }, [])
+
+    }, [url]);
 
     return (
         <div>
-              {isPending && <Pageloader/>      }
-              {!isPending && <Result tabledata={tableData} totalmatches={totalMatches} featurename={featurename} img={img} graphs={graph} timeseriesnames={timeseriesnames} timeseriescategory={timeseriescategory}/>}
+            {isPending && <Pageloader/>}
+            {!isPending &&
+            <Result tabledata={tableData} totalmatches={totalMatches} featurename={featurename} img={img} graphs={graph}
+                    timeseriesnames={timeseriesnames} timeseriescategory={timeseriescategory}/>}
         </div>
     );
 };

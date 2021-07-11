@@ -17,9 +17,8 @@ import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 
 
 function createLink(params) {
-    return (<a href={`/exploremode/${params.row.ID}/${params.row.NAME}`}><Tooltip title={params.row.NAME}>
-        <span className="table-cell-trucate">{params.row.NAME}</span>
-    </Tooltip></a>);
+    return (<Link to={`/exploremode/${params.row.ID}/${params.row.NAME}`}>
+        <span className="table-cell-trucate">{params.row.NAME}</span></Link>);
 }
 
 const columns = [
@@ -104,7 +103,7 @@ const Result = (props) => {
     const [xdata, setXData] = React.useState(true);
     const [ydata, setYdata] = React.useState(true);
     const [title, setTitle] = React.useState(true);
-    const [visualization, setVisualisation] = React.useState(false);
+    const [visualization, setVisualisation] = React.useState("scatterPlot");
 
     const handlePlotClick = (data) => {
         const index = data.points[0].pointIndex
@@ -147,43 +146,9 @@ const Result = (props) => {
                     <br/>
                     <StylingCellsGrid features={props.tabledata}/>
                     <br/>
-                    {false &&
-                    <table id="table" data-toolbar="#toolbar" data-toggle="table" data-pagination="true"
-                           data-show-toggle="true" data-show-columns="true" data-show-fullscreen="true"
-                           data-height="760" data-page-size="12" data-page-list="[12,25,50,100]"
-                           style={{textAlign: "left"}}>
-                        <thead className="thead-dark">
-                        <tr>
-                            <th data-field="Rank">Rank</th>
-                            <th data-field="Name">Name</th>
-                            <th data-field="Keywords">Keywords</th>
-                            <th data-field="Corr">Correlation</th>
-                            <th data-field="pvalue" data-visible="false">p-value</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {props.tabledata.map((item) => (
-                            <tr>
-                                <td>{item.Rank}</td>
-                                <td>
-                                    <Link className="explorelink" to={`/exploremode/${item.ID}/${item.NAME}`}>
-                                        {item.NAME}
-                                    </Link>
-                                </td>
-                                <td>{item.KEYWORDS}</td>
-                                <td>{item.COEF}</td>
-                                <td>{item.PVALUE}</td>
-                            </tr>
-                        ))}
-                        </tbody>
-                    </table>}
                     <hr/>
                     <br/>
-                    <ToggleButtonGroup
-                        exclusive
-                        onChange={setVisualization}
-                        style={{width: '100%'}}
-                    >
+                    <ToggleButtonGroup value={visualization} thumbSwitchedStyle={{ backgroundColor: 'grey' }} exclusive onChange={setVisualization} style={{width: '100%'}}>
                         <ToggleButton value="scatterPlot" style={{width: '33%'}}>
                             Scatter Plot
                         </ToggleButton>
@@ -194,7 +159,7 @@ const Result = (props) => {
                             Heatmap
                         </ToggleButton>
                     </ToggleButtonGroup>
-                    <div style={{overflow:"scroll",overflowX:"hidden",height:"825px", width:"100%",border: "1px solid rgba(0,0,0,0.12)"}}> <br/>
+                    <div style={{overflow:"scroll",height:"900px", width:"100%",border: "1px solid rgba(0,0,0,0.12)"}}> <br/>
                     {visualization === "scatterPlot" &&
                     props.graphs.map((graph) => (
                         <PlotlyComponent xdata={graph.xdata} ydata={graph.ydata} xtit={graph.xtit} ytit={graph.ytit}

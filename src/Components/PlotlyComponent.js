@@ -36,8 +36,8 @@ function PlotlyComponent({xdata, ydata, xtit, ytit, title, timeseriesnames, hand
                 size: 15
             }
         },
-        width: 360,
-        height: 320,
+        width: 360-37,
+        height: 320+40,
         yaxis: {
             title: {
                 text: ytit,
