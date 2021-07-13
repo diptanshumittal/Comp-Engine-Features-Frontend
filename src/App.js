@@ -24,9 +24,10 @@ const App = (props) => {
         setFeatureName(featurename);
     }
     useEffect(() => {
-        axios.get(props.url+'api/getfeatures').then((response) => {
-                props.addFeatures(response.data.data);
-            });
+        axios.get(props.url + 'api/getfeatures').then((response) => {
+            // console.log(response)
+            props.addFeatures(response.data);
+        });
     }, [])
 
     return (

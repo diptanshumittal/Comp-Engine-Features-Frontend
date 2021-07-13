@@ -16,10 +16,11 @@ const UserFeatureSubmitted = (props) => {
     const [totalMatches, changeMatches] = useState(0);
     const [featurename, changeFname] = useState("");
     const [img, changeImage] = useState("");
-    const [graphs, changeGraphs] = useState("");
+    const [scatterPlotGraphs, changeScatterPlotGraphs] = useState("");
     const [stat, changeStat] = useState("");
     const [timeseriesnames, changeTimeSeriesNames] = useState([]);
     const [timeseriescategory, changeTimeSeriesCategory] = useState([]);
+    const [networkGraph, changeNetworkGraph] = useState([]);
 
     useEffect(() => {
         props.addLinkCount()
@@ -32,15 +33,16 @@ const UserFeatureSubmitted = (props) => {
                 'Content-Type': 'multipart/form-data'
             }
         }).then((response) => {
-            console.log(response)
+            console.log(response.data)
             if (response.data.stat === 1) {
                 changeTabledata(response.data.tabledata);
                 changeMatches(response.data.totalmatches);
                 changeFname(response.data.featurename);
                 changeImage(response.data.heatmap);
-                changeGraphs(response.data.graph);
+                changeScatterPlotGraphs(response.data.scatterplotgraphs);
                 changeTimeSeriesNames(response.data.timeseriesnames);
                 changeTimeSeriesCategory(response.data.timeseriescategory);
+                changeNetworkGraph(response.data.networkGraph);
             }
             changeStat(response.data.stat)
             changeIsPending(false);
@@ -52,7 +54,7 @@ const UserFeatureSubmitted = (props) => {
             {isPending && <Pageloader/>}
             {!isPending && stat === 1 &&
             <Result tabledata={tableData} totalmatches={totalMatches} featurename={featurename} img={img}
-                    graphs={graphs} timeseriesnames={timeseriesnames} timeseriescategory={timeseriescategory}/>
+                    scatterPlotGraphs={scatterPlotGraphs} timeseriesnames={timeseriesnames} timeseriescategory={timeseriescategory} networkGraph={networkGraph}/>
             }
             {!isPending && stat === 2 &&
             <SyntaxError/>

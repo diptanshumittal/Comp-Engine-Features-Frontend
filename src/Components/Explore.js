@@ -11,17 +11,18 @@ import {
     GridToolbar
 } from '@material-ui/data-grid';
 import {makeStyles} from '@material-ui/styles';
+import {useEffect, useState} from "react";
 
 
 function createLink(params) {
-    return (<Link to={`/exploremode/${params.row.ID}/${params.row.NAME}`}><Tooltip title={params.row.NAME}>
+    return (<Link to={`/exploremode/${params.row.id}/${params.row.NAME}`}><Tooltip title={params.row.NAME}>
         <span className="table-cell-trucate">{params.row.NAME}</span>
     </Tooltip></Link>);
 }
 
 const columns = [
     {
-        field: 'ID',
+        field: 'id',
         type: 'number',
         headerName: 'S.No',
         headerAlign: 'left',
@@ -84,9 +85,24 @@ function StylingCellsGrid(props) {
 
 
 const Explore = (props) => {
-    if (props.features)
-        for (let index = 0; index < props.features.length; index++)
-            props.features[index].id = index
+    // if (props.features)
+    //     for (let index = 0; index < props.features.length; index++)
+    //         props.features[index].id = index
+    console.log(props)
+
+    const [features, setFeatures] = useState([]);
+
+    useEffect(() =>{
+        if(props.features) {
+            let tFeatures = [];
+            for (const [key, val] of Object.entries(props.features)) {
+                tFeatures.push(val);
+            }
+            console.log(tFeatures);
+            setFeatures(tFeatures);
+        }
+    },[props.features])
+
 
 
     return (
@@ -111,45 +127,7 @@ const Explore = (props) => {
                             {props.lorem}
                         </p>
                     </div>
-                    <StylingCellsGrid features={props.features}/>
-                    {false &&
-                    <table className="table-striped" id="table" data-toggle="table" data-pagination="true"
-                           data-filter-control="true"
-                           data-height="730" data-page-size="12" data-page-list="[15,35,55,100]">
-                        <thead className="thead-dark">
-                        <tr>
-                            <th data-field="ID">S.No</th>
-                            <th data-field="Name" data-filter-control="input"
-                                data-filter-control-placeholder="Search by feature name">Feature Names
-                            </th>
-                            <th data-field="Keywords" data-filter-control="input"
-                                data-filter-control-placeholder="Search by Tags">Tags
-                            </th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {
-                            props.features.map((item) => (
-                                <tr>
-                                    <td onClick={() => console.log("Clicked")}><a>{item.ID}</a></td>
-                                    <td><Link to={`/exploremode/${item.ID}/${item.NAME}`}>{item.NAME}>{item.NAME}</Link>
-                                    </td>
-                                    <td>{item.KEYWORDS}</td>
-                                </tr>
-                            ))
-                        }
-                        </tbody>
-                    </table>
-                    }
-                    {false &&
-                    <Helmet>
-                        <link rel="stylesheet"
-                              href="https://unpkg.com/bootstrap-table@1.17.1/dist/bootstrap-table.min.css"/>
-                        <script src="https://unpkg.com/bootstrap-table@1.17.1/dist/bootstrap-table.min.js"/>
-                        <script
-                            src="https://unpkg.com/bootstrap-table@1.17.1/dist/extensions/filter-control/bootstrap-table-filter-control.min.js"/>
-                    </Helmet>
-                    }
+                    <StylingCellsGrid features={features}/>
                 </div>
             )}
         </div>

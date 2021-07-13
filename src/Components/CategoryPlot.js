@@ -43,7 +43,7 @@ const setplotdata = (props, ind) => {
             itemwidth: 10
         },
         title: {
-            text: props.graphs[ind].ytit + '    |    ' + props.graphs[ind].title,
+            text: props.graphs.yaxes[ind].ytit + '    |    ' + props.graphs.yaxes[ind].title,
             font: {
                 size: 18
             },
@@ -53,7 +53,7 @@ const setplotdata = (props, ind) => {
         height: 500 + x,
         yaxis: {
             title: {
-                text: props.graphs[ind].ytit,
+                text: props.graphs.yaxes[ind].ytit,
                 standoff: 15,
                 font: {
                     size: 12
@@ -68,7 +68,7 @@ const setplotdata = (props, ind) => {
         },
         xaxis: {
             title: {
-                text: props.graphs[ind].xtit,
+                text: props.graphs.xaxis.xtit,
                 standoff: 10,
                 font: {
                     size: 12
@@ -86,14 +86,14 @@ const setplotdata = (props, ind) => {
     }
     for (let i = 0; i < props.timeseriescategory.length; i++) {
         let dic = {
-            x: props.graphs[ind].xdata[i],
-            y: props.graphs[ind].ydata[i],
+            x: props.graphs.xaxis.xdata[i],
+            y: props.graphs.yaxes[ind].ydata[i],
             mode: 'markers',
             text: props.timeseriesnames[i],
             name: props.timeseriescategory[i],
             marker: {
                 color: colors[i],
-                size: Array.from(Array(props.graphs[ind].xdata[i].length).fill(5))
+                size: Array.from(Array(props.graphs.xaxis.xdata[i].length).fill(5))
             }
         }
         grdata.push(dic);
@@ -173,14 +173,26 @@ function CategoryPlot(props) {
         setLastclickCurve(cn);
         setFeatureData(gdata);
         const index = data.points[0].text;
-        axios.get(props.url + 'api/gettimeseries/' + index).then((response) => {
-            const ydata = response.data.ydata;
-            const xdata = response.data.xdata;
-            const title = response.data.name;
+
+        if(props.timeseriesBuffer[index] !== undefined){
+            const ydata = props.timeseriesBuffer[index].ydata;
+            const xdata = props.timeseriesBuffer[index].xdata;
+            const title = props.timeseriesBuffer[index].name;
             const [tdata, tlay] = timeseriesplot(xdata, ydata, title, data.points[0].data.marker.color)
             setTimeseriesdata(tdata)
             setTimeserieslayout(tlay)
-        });
+        }
+        else {
+            axios.get(props.url + 'api/gettimeseries/' + index).then((response) => {
+                const ydata = response.data.ydata;
+                const xdata = response.data.xdata;
+                const title = response.data.name;
+                const [tdata, tlay] = timeseriesplot(xdata, ydata, title, data.points[0].data.marker.color)
+                props.addTimeseriesToBuffer(response.data,index)
+                setTimeseriesdata(tdata)
+                setTimeserieslayout(tlay)
+            });
+        }
     }
 
     const Plot = createPlotlyComponent(Plotly);
@@ -193,7 +205,7 @@ function CategoryPlot(props) {
                     autoWidth
                     onChange={handleChange}
                 >
-                    {props.graphs.map((graph, index) => (
+                    {props.graphs.yaxes.map((graph, index) => (
                         <MenuItem value={index}>{graph.ytit}</MenuItem>
                     ))}
                 </Select>

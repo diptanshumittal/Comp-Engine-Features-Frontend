@@ -1,15 +1,16 @@
-import React from 'react';
+import React, {memo} from 'react';
 import Plotly from "plotly.js-basic-dist";
 import createPlotlyComponent from "react-plotly.js/factory";
 import {connect} from "react-redux";
 import mapStateToProps from "./mapStateToProps";
 import mapDispatchToProps from "./mapDispatchToProps";
 
-function PlotlyComponent({xdata, ydata, xtit, ytit, title, timeseriesnames, handlePlotClick}) {
+function PlotlyComponent({index, xdata, ydata, xtit, ytit, title, timeseriesnames}) {
     const randomColor = Math.floor(Math.random()*16777215).toString(16);
     const xData = [].concat(...xdata);
     const yData = [].concat(...ydata);
     const timeSeriesNames = [].concat(...timeseriesnames);
+    // console.log(index)
     const data = [{
         x: xData,
         y: yData,
@@ -78,8 +79,7 @@ function PlotlyComponent({xdata, ydata, xtit, ytit, title, timeseriesnames, hand
             layout={layout}
             config={{ modeBarButtonsToRemove: ['zoom2d', 'pan2d', 'select2d', 'zoomIn2d', 'zoomOut2d', 'autoScale2d', 'resetScale2d', 'hoverClosestCartesian', 'hoverCompareCartesian'],
                       displaylogo: false}}
-            onClick={(data) => handlePlotClick(data)}
         />
     );
 }
-export default connect(mapStateToProps, mapDispatchToProps)(PlotlyComponent)
+export default connect(mapStateToProps, mapDispatchToProps)(memo(PlotlyComponent))

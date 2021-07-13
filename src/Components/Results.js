@@ -1,24 +1,23 @@
-import {Helmet} from "react-helmet";
 import PlotlyComponent from "./PlotlyComponent";
 import {Link} from 'react-router-dom';
 import {connect} from "react-redux";
 import mapStateToProps from "./mapStateToProps";
 import mapDispatchToProps from "./mapDispatchToProps";
 import React, {useEffect} from "react";
-import axios from "axios";
 import CustomDialogBox from "./CustomDialogBox";
 import {DataGrid, GridToolbar} from "@material-ui/data-grid";
 import Tooltip from "@material-ui/core/Tooltip";
 import {makeStyles} from "@material-ui/styles";
-import {Category} from "@material-ui/icons";
 import CategoryPlot from "./CategoryPlot";
 import ToggleButton from '@material-ui/lab/ToggleButton';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
+import NetworkGraph from "./NetworkGraph";
 
 
 function createLink(params) {
-    return (<Link to={`/exploremode/${params.row.ID}/${params.row.NAME}`}>
-        <span className="table-cell-trucate">{params.row.NAME}</span></Link>);
+    return (<Link to={`/exploremode/${params.row.id}/${params.row.NAME}`}><Tooltip title={params.row.NAME}>
+        <span className="table-cell-trucate">{params.row.NAME}</span>
+    </Tooltip></Link>);
 }
 
 const columns = [
@@ -96,30 +95,29 @@ function StylingCellsGrid(props) {
 }
 
 const Result = (props) => {
-    if (props.tabledata)
-        for (let index = 0; index < props.tabledata.length; index++)
-            props.tabledata[index].id = index
+
+
+
     const [openDialog, setOpenDialog] = React.useState(false);
     const [xdata, setXData] = React.useState(true);
     const [ydata, setYdata] = React.useState(true);
     const [title, setTitle] = React.useState(true);
-    const [visualization, setVisualisation] = React.useState("scatterPlot");
-
-    const handlePlotClick = (data) => {
-        const index = data.points[0].pointIndex
-        console.log(index)
-        axios.get(props.url + 'api/gettimeseries/' + index).then((response) => {
-            console.log(response)
-            setYdata(response.data.ydata)
-            setXData(response.data.xdata)
-            setTitle(response.data.name)
-            setOpenDialog(true)
-        });
-    }
-
+    const [tableData, setTableData] = React.useState("network");
+    const [visualization, setVisualisation] = React.useState("network");
     const setVisualization = (event, newAlignment) => {
         setVisualisation(newAlignment)
     }
+
+    useEffect(()=>{
+        let list = []
+        if (props.tabledata)
+            props.tabledata.map((item) => {
+                item.NAME = props.features[item.id].NAME
+                item.KEYWORDS = props.features[item.id].KEYWORDS
+                list.push(item)
+            })
+        setTableData(list);
+    },[props.tabledata])
     return (
         <div id="resultsec">
             {openDialog && <CustomDialogBox xdata={xdata} ydata={ydata} title={title} setOpenDialog={setOpenDialog}/>}
@@ -148,39 +146,57 @@ const Result = (props) => {
                     <br/>
                     <hr/>
                     <br/>
-                    <ToggleButtonGroup value={visualization} thumbSwitchedStyle={{ backgroundColor: 'grey' }} exclusive onChange={setVisualization} style={{width: '100%'}}>
-                        <ToggleButton value="scatterPlot" style={{width: '33%'}}>
+                    <ToggleButtonGroup value={visualization} exclusive
+                                       onChange={setVisualization} style={{width: '100%'}}>
+                        <ToggleButton value="scatterPlot" style={{width: '25%'}}>
                             Scatter Plot
                         </ToggleButton>
-                        <ToggleButton value="categoryPlot" style={{width: '33%'}}>
+                        <ToggleButton value="categoryPlot" style={{width: '25%'}}>
                             Category Plot
                         </ToggleButton>
-                        <ToggleButton value="heatmap" style={{width: '33%'}}>
+                        <ToggleButton value="heatmap" style={{width: '25%'}}>
                             Heatmap
                         </ToggleButton>
+                        <ToggleButton value="network" style={{width: '25%'}}>
+                            Network
+                        </ToggleButton>
                     </ToggleButtonGroup>
-                    <div style={{overflow:"scroll",height:"900px", width:"100%",border: "1px solid rgba(0,0,0,0.12)"}}> <br/>
-                    {visualization === "scatterPlot" &&
-                    props.graphs.map((graph) => (
-                        <PlotlyComponent xdata={graph.xdata} ydata={graph.ydata} xtit={graph.xtit} ytit={graph.ytit}
-                                         title={graph.title} timeseriesnames={props.timeseriesnames}
-                                         handlePlotClick={handlePlotClick}/>
-                    ))
-                    }
-                    {visualization === "categoryPlot" &&
-                    <CategoryPlot graphs={props.graphs} timeseriesnames={props.timeseriesnames}
-                                  timeseriescategory={props.timeseriescategory}/>
-                    }
-                    {visualization === "heatmap" &&
-
-                    <img
-                        className="clustermap"
-                        src={`data:image/png;base64,${props.img}`}
-                        alt="mydataplohere"
-                        height="850"
-                        width="850"
-                    />
-                    }
+                    <div style={{
+                        overflow: "scroll",
+                        height: "900px",
+                        width: "100%",
+                        border: "1px solid rgba(0,0,0,0.12)"
+                    }}>
+                        <br/>
+                        {visualization === "scatterPlot" &&
+                            props.scatterPlotGraphs.yaxes.map((yaxis, index) => {
+                                    if (index < 12) {
+                                        return (
+                                            <PlotlyComponent index={index} xdata={props.scatterPlotGraphs.xaxis.xdata}
+                                                             ydata={yaxis.ydata}
+                                                             xtit={props.scatterPlotGraphs.xaxis.xtit} ytit={yaxis.ytit}
+                                                             title={yaxis.title} timeseriesnames={props.timeseriesnames}/>
+                                        );
+                                    }
+                                }
+                            )
+                        }
+                        {visualization === "categoryPlot" &&
+                        <CategoryPlot graphs={props.scatterPlotGraphs} timeseriesnames={props.timeseriesnames}
+                                      timeseriescategory={props.timeseriescategory}/>
+                        }
+                        {visualization === "heatmap" &&
+                        <img
+                            className="clustermap"
+                            src={`data:image/png;base64,${props.img}`}
+                            alt="mydataplohere"
+                            height="850"
+                            width="850"
+                        />
+                        }
+                        {visualization === "network" &&
+                        <NetworkGraph networkGraph={props.networkGraph}/>
+                        }
                     </div>
                 </div>
             </div>
