@@ -18,7 +18,7 @@ function NetworkGraph(props) {
             setSelectedFeature(props.features[data.id].NAME + " " + props.features[data.id].KEYWORDS)
         }
         // if (action === 'NODE_DOUBLE_SINGLE_CLICK') {
-        //     axios.get(props.url + 'api/network/' + data.id + '/' + data.totalNodes).then((response) => {
+        //     axios.get(props.url + 'network/' + data.id + '/' + data.totalNodes).then((response) => {
         //         // setGraph(response.data)
         //         return response.data
         //     });
@@ -63,7 +63,7 @@ const GetGraph = memo((props) => {
         doubleClick: (event) => {
             let {nodes, edges} = event;
             if (nodes.length !== 0) {
-                axios.get(props.url + 'api/network/' + graph.nodes[event.nodes[0]].title + '/' + totalNode).then((response) => {
+                axios.get(props.url + 'network/' + graph.nodes[event.nodes[0]].title + '/' + totalNode).then((response) => {
                     // console.log(response.data.networkGraph)
                     setGraph(response.data.networkGraph)
                 });

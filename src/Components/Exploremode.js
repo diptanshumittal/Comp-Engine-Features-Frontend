@@ -9,7 +9,7 @@ import mapDispatchToProps from "./mapDispatchToProps";
 
 const Exploremode = (props) => {
     const {id, name} = useParams();
-    const url = props.url + "api/exploremode/" + id + "/" + name
+    const url = props.url + "exploremode/" + id + "/" + name
     const [isPending, changeIsPending] = useState(true);
     const [tableData, changeTabledata] = useState([]);
     const [totalMatches, changeMatches] = useState(0);

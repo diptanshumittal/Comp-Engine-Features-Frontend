@@ -24,7 +24,7 @@ const App = (props) => {
         setFeatureName(featurename);
     }
     useEffect(() => {
-        axios.get(props.url + 'api/getfeatures').then((response) => {
+        axios.get(props.url + 'getfeatures').then((response) => {
             // console.log(response)
             props.addFeatures(response.data);
         });

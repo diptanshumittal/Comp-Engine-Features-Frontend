@@ -28,7 +28,7 @@ const UserFeatureSubmitted = (props) => {
         const formData = new FormData();
         formData.append('featurecode', props.featureCode);
         formData.append('featurename', props.featureName);
-        axios.post(props.url+'api/result', formData, {
+        axios.post(props.url+'result', formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }

@@ -183,7 +183,7 @@ function CategoryPlot(props) {
             setTimeserieslayout(tlay)
         }
         else {
-            axios.get(props.url + 'api/gettimeseries/' + index).then((response) => {
+            axios.get(props.url + 'gettimeseries/' + index).then((response) => {
                 const ydata = response.data.ydata;
                 const xdata = response.data.xdata;
                 const title = response.data.name;
