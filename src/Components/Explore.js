@@ -2,8 +2,8 @@ import img2 from "../assets/img/preloader.gif";
 import {Helmet} from "react-helmet";
 import {Link} from 'react-router-dom';
 import {connect} from "react-redux";
-import mapStateToProps from "./mapStateToProps";
-import mapDispatchToProps from "./mapDispatchToProps";
+import mapStateToProps from "./ReducerComponents/mapStateToProps";
+import mapDispatchToProps from "./ReducerComponents/mapDispatchToProps";
 import Tooltip from "@material-ui/core/Tooltip";
 import * as React from 'react';
 import {

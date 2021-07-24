@@ -1,7 +1,7 @@
 import {Helmet} from "react-helmet";
 import {connect} from "react-redux";
-import mapStateToProps from "./mapStateToProps";
-import mapDispatchToProps from "./mapDispatchToProps";
+import mapStateToProps from "./ReducerComponents/mapStateToProps";
+import mapDispatchToProps from "./ReducerComponents/mapDispatchToProps";
 
 const Contact = () => {
     return (

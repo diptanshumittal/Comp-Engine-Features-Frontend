@@ -1,7 +1,7 @@
 import img from "../assets/img/Sample Code.png";
 import {connect} from "react-redux";
-import mapStateToProps from "./mapStateToProps";
-import mapDispatchToProps from "./mapDispatchToProps";
+import mapStateToProps from "./ReducerComponents/mapStateToProps";
+import mapDispatchToProps from "./ReducerComponents/mapDispatchToProps";
 
 const Howitworks = () => {
     return (

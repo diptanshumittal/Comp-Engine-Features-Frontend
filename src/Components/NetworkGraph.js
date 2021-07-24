@@ -2,8 +2,8 @@ import React, {memo, useCallback, useEffect, useState} from 'react';
 import {connect} from "react-redux";
 import Graph from "react-graph-vis";
 import {v4} from "uuid";
-import mapStateToProps from "./mapStateToProps";
-import mapDispatchToProps from "./mapDispatchToProps";
+import mapStateToProps from "./ReducerComponents/mapStateToProps";
+import mapDispatchToProps from "./ReducerComponents/mapDispatchToProps";
 import axios from "axios";
 
 
@@ -12,10 +12,13 @@ function NetworkGraph(props) {
     useEffect(() => {
         setGraph(props.networkGraph)
     }, [])
-    const [selectedFeature, setSelectedFeature] = useState("");
+    const [selectedFeature, setSelectedFeature] = useState({});
     const handleClick = async (action, data) => {
         if (action === 'NODE_SINGLE_CLICK') {
-            setSelectedFeature(props.features[data.id].NAME + " " + props.features[data.id].KEYWORDS)
+            setSelectedFeature({
+                Name: props.features[data.id].NAME,
+                Keyword: props.features[data.id].KEYWORDS
+            })
         }
         // if (action === 'NODE_DOUBLE_SINGLE_CLICK') {
         //     axios.get(props.url + 'network/' + data.id + '/' + data.totalNodes).then((response) => {
@@ -30,7 +33,20 @@ function NetworkGraph(props) {
         <div>
             {graph &&
             <GetGraph displayer={memoHandleClick} graph={graph} url={props.url}/>}
-            <h1>{selectedFeature}</h1>
+            <ul className="list-group" style={{marginLeft:"10%", marginRight:"10%",marginTop:"5%"}}>
+                <li className="list-group-item d-flex justify-content-between align-items-center">
+                    <b>Feature Name </b>
+                    <span className="badge badge-primary badge-pill">
+                          {selectedFeature.Name}
+                        </span>
+                </li>
+                <li className="list-group-item d-flex justify-content-between align-items-center">
+                    <b>Keywords</b>
+                    <span className="badge badge-primary badge-pill">
+                          {selectedFeature.Keyword}
+                        </span>
+                </li>
+            </ul>
         </div>
     );
 }
@@ -89,7 +105,7 @@ const GetGraph = memo((props) => {
     for (let i = 0; i < graph.edges.length; i++) {
         graph.edges[i].color = "green"
         let length = parseFloat(graph.edges[i].label)*1000
-        console.log(length)
+        // console.log(length)
         if (length<0){
             graph.edges[i].color = "red"
         }
@@ -106,7 +122,7 @@ const GetGraph = memo((props) => {
         }
         graph.nodes[i].color = color
     }
-    console.log(graph)
+    // console.log(graph)
     return (
         <Graph
             key={v4()}

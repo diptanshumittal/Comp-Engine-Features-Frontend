@@ -1,6 +1,6 @@
 import {connect} from "react-redux";
-import mapStateToProps from "./mapStateToProps";
-import mapDispatchToProps from "./mapDispatchToProps";
+import mapStateToProps from "./ReducerComponents/mapStateToProps";
+import mapDispatchToProps from "./ReducerComponents/mapDispatchToProps";
 import {Link} from "react-router-dom";
 
 const SyntaxError = (props) => {

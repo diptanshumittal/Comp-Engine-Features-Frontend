@@ -1,8 +1,8 @@
 import img1 from "../assets/img/86943-triangle-symbol-sign-content-weather-warning.png";
 import img2 from "../assets/img/IMGBIN_computer-worm-computer-virus-trojan-horse-malware-png_hWBkURUi.png";
 import {connect} from "react-redux";
-import mapStateToProps from "./mapStateToProps";
-import mapDispatchToProps from "./mapDispatchToProps";
+import mapStateToProps from "./ReducerComponents/mapStateToProps";
+import mapDispatchToProps from "./ReducerComponents/mapDispatchToProps";
 import {Link} from "react-router-dom";
 
 const WarningPage = (props) => {

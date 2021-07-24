@@ -1,126 +1,32 @@
 import PlotlyComponent from "./PlotlyComponent";
-import {Link} from 'react-router-dom';
 import {connect} from "react-redux";
-import mapStateToProps from "./mapStateToProps";
-import mapDispatchToProps from "./mapDispatchToProps";
+import mapStateToProps from "./ReducerComponents/mapStateToProps";
+import mapDispatchToProps from "./ReducerComponents/mapDispatchToProps";
 import React, {useEffect} from "react";
-import CustomDialogBox from "./CustomDialogBox";
-import {DataGrid, GridToolbar} from "@material-ui/data-grid";
-import Tooltip from "@material-ui/core/Tooltip";
-import {makeStyles} from "@material-ui/styles";
 import CategoryPlot from "./CategoryPlot";
 import ToggleButton from '@material-ui/lab/ToggleButton';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import NetworkGraph from "./NetworkGraph";
+import DashBoardTable from "./VisualizationComponents/DashBoardTable";
 
-
-function createLink(params) {
-    return (<Link to={`/exploremode/${params.row.id}/${params.row.NAME}`}><Tooltip title={params.row.NAME}>
-        <span className="table-cell-trucate">{params.row.NAME}</span>
-    </Tooltip></Link>);
-}
-
-const columns = [
-    {
-        field: 'Rank',
-        type: 'number',
-        headerAlign: 'left',
-        align: 'left',
-        headerName: 'Rank',
-        headerClassName: 'super-app-theme--header',
-        label: 'NAME',
-        flex: 0.12,
-    },
-    {
-        field: 'NAME',
-        headerName: 'Feature Names',
-        headerClassName: 'super-app-theme--header',
-        renderCell: createLink,
-        flex: 0.4
-    },
-    {
-        field: 'KEYWORDS',
-        headerName: 'Tags',
-        headerClassName: 'super-app-theme--header',
-        flex: 0.3
-    },
-    {
-        field: 'COEF',
-        type: 'number',
-        headerAlign: 'left',
-        align: 'left',
-        headerName: 'Corr',
-        headerClassName: 'super-app-theme--header',
-        flex: 0.2
-    }
-];
-
-
-const useStyles = makeStyles({
-    root: {
-        '& .super-app-theme--header': {
-            fontWeight: '900',
-            fontSize: '1rem'
-        },
-        '& .super-app-theme--cell': {
-            backgroundColor: 'rgba(224, 183, 60, 0.55)',
-            color: '#1a3e72',
-            fontWeight: '600',
-        },
-        '& .super-app.negative': {
-            backgroundColor: 'rgba(157, 255, 118, 0.49)',
-            color: '#1a3e72',
-            fontWeight: '600',
-        },
-        '& .super-app.positive': {
-            backgroundColor: '#d47483',
-            color: '#1a3e72',
-            fontWeight: '600',
-        },
-    },
-});
-
-
-function StylingCellsGrid(props) {
-    const classes = useStyles();
-    return (
-        <div style={{height: 730, width: '100%'}} className={classes.root}>
-            <DataGrid pagination disableSelectionOnClick rowBuffer={20} rows={props.features} columns={columns}
-                      rowHeight={35}
-                      components={{
-                          Toolbar: GridToolbar,
-                      }}/>
-        </div>
-    );
-}
 
 const Result = (props) => {
 
-
-
-    const [openDialog, setOpenDialog] = React.useState(false);
-    const [xdata, setXData] = React.useState(true);
-    const [ydata, setYdata] = React.useState(true);
-    const [title, setTitle] = React.useState(true);
-    const [tableData, setTableData] = React.useState("network");
     const [visualization, setVisualisation] = React.useState("network");
     const setVisualization = (event, newAlignment) => {
         setVisualisation(newAlignment)
     }
 
     useEffect(()=>{
-        let list = []
-        if (props.tabledata)
+        if (props.tabledata && props.features)
             props.tabledata.map((item) => {
                 item.NAME = props.features[item.id].NAME
                 item.KEYWORDS = props.features[item.id].KEYWORDS
-                list.push(item)
             })
-        setTableData(list);
-    },[props.tabledata])
+    },[props.tabledata, props.features])
+
     return (
         <div id="resultsec">
-            {openDialog && <CustomDialogBox xdata={xdata} ydata={ydata} title={title} setOpenDialog={setOpenDialog}/>}
             <div className="container">
                 <p className="display-2">Dashboard</p>
                 <hr/>
@@ -142,7 +48,7 @@ const Result = (props) => {
                 </ul>
                 <div className="container mt-2 mb-2">
                     <br/>
-                    <StylingCellsGrid features={props.tabledata}/>
+                    <DashBoardTable tabledata={props.tabledata}/>
                     <br/>
                     <hr/>
                     <br/>

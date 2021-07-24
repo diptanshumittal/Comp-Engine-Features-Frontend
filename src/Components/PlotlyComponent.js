@@ -2,8 +2,8 @@ import React, {memo} from 'react';
 import Plotly from "plotly.js-basic-dist";
 import createPlotlyComponent from "react-plotly.js/factory";
 import {connect} from "react-redux";
-import mapStateToProps from "./mapStateToProps";
-import mapDispatchToProps from "./mapDispatchToProps";
+import mapStateToProps from "./ReducerComponents/mapStateToProps";
+import mapDispatchToProps from "./ReducerComponents/mapDispatchToProps";
 
 function PlotlyComponent({index, xdata, ydata, xtit, ytit, title, timeseriesnames}) {
     const randomColor = Math.floor(Math.random()*16777215).toString(16);

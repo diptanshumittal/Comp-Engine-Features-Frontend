@@ -1,17 +1,10 @@
 import { Link } from "react-router-dom";
-import {useState} from "react";
-import Nav_link from "./Nav_link";
+import Nav_Link from "./Nav_Link";
 import {connect} from "react-redux";
-import mapStateToProps from "./mapStateToProps";
-import mapDispatchToProps from "./mapDispatchToProps";
-
-function useForceUpdate(){
-    const [value, setValue] = useState(0);
-    return () => setValue(value => value + 1);
-}
+import mapStateToProps from "./ReducerComponents/mapStateToProps";
+import mapDispatchToProps from "./ReducerComponents/mapDispatchToProps";
 
 const Navbarcustom = (props) => {
-    const forceUpdate = useForceUpdate();
     return (
         <div>
             <nav className="navbar sticky-top navbar-expand-lg navbar-dark bg-dark" onClick={props.addLinkCount}>
@@ -23,11 +16,11 @@ const Navbarcustom = (props) => {
                 </button>
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav mr-auto">
-                        <Nav_link to="/" name="Home"/>
-                        <Nav_link to="/howitworks" name="How it Works"/>
-                        <Nav_link to="/explore" name="Explore"/>
-                        <Nav_link to="/contact" name="Contact Us"/>
-                        <Nav_link to="/contribute" name="Contribute"/>
+                        <Nav_Link to="/" name="Home"/>
+                        <Nav_Link to="/howitworks" name="How it Works"/>
+                        <Nav_Link to="/explore" name="Explore"/>
+                        <Nav_Link to="/contact" name="Contact Us"/>
+                        <Nav_Link to="/contribute" name="Contribute"/>
                     </ul>
                     <form className="form-inline my-2 my-lg-0">
                         <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"/>
