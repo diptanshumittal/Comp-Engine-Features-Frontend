@@ -1,11 +1,11 @@
 import {useEffect, useState} from "react";
 import axios from "axios";
-import Result from "./Results";
-import Pageloader from "./Pageloader";
+import Result from "../Results";
+import Pageloader from "../Pageloader";
 import {Redirect} from "react-router-dom";
 import {connect} from "react-redux";
-import mapStateToProps from "./ReducerComponents/mapStateToProps";
-import mapDispatchToProps from "./ReducerComponents/mapDispatchToProps";
+import mapStateToProps from "../ReducerComponents/mapStateToProps";
+import mapDispatchToProps from "../ReducerComponents/mapDispatchToProps";
 import Timeout from "./Timeout";
 import SyntaxError from "./SyntaxError";
 import WarningPage from "./WarningPage";

@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 import Nav_Link from "./Nav_Link";
 import {connect} from "react-redux";
-import mapStateToProps from "./ReducerComponents/mapStateToProps";
-import mapDispatchToProps from "./ReducerComponents/mapDispatchToProps";
+import mapStateToProps from "../ReducerComponents/mapStateToProps";
+import mapDispatchToProps from "../ReducerComponents/mapDispatchToProps";
 
 const Navbarcustom = (props) => {
     return (

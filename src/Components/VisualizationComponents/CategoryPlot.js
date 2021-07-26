@@ -1,9 +1,9 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Plotly from "plotly.js-basic-dist";
 import createPlotlyComponent from "react-plotly.js/factory";
 import {connect} from "react-redux";
-import mapStateToProps from "./ReducerComponents/mapStateToProps";
-import mapDispatchToProps from "./ReducerComponents/mapDispatchToProps";
+import mapStateToProps from "../ReducerComponents/mapStateToProps";
+import mapDispatchToProps from "../ReducerComponents/mapDispatchToProps";
 import axios from "axios";
 import {makeStyles} from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -11,8 +11,6 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import PlotlyComponent from "./PlotlyComponent";
-
 const useStyles = makeStyles((theme) => ({
     formControl: {
         margin: theme.spacing(1),
@@ -195,6 +193,12 @@ function CategoryPlot(props) {
         }
     }
 
+    useEffect(()=>{
+        const graph = setplotdata(props, 0)
+        setFeatureData(graph[0])
+        setFeatureLayout(graph[1])
+    },[])
+
     const Plot = createPlotlyComponent(Plotly);
     const Plot1 = createPlotlyComponent(Plotly);
     return (
@@ -204,6 +208,7 @@ function CategoryPlot(props) {
                 <Select
                     autoWidth
                     onChange={handleChange}
+                    defaultValue={0}
                 >
                     {props.graphs.yaxes.map((graph, index) => (
                         <MenuItem value={index}>{graph.ytit}</MenuItem>

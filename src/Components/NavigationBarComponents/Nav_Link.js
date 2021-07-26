@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import {connect} from "react-redux";
-import mapStateToProps from "./ReducerComponents/mapStateToProps";
-import mapDispatchToProps from "./ReducerComponents/mapDispatchToProps";
+import mapStateToProps from "../ReducerComponents/mapStateToProps";
+import mapDispatchToProps from "../ReducerComponents/mapDispatchToProps";
 
 class Nav_Link extends React.Component {
     render() {

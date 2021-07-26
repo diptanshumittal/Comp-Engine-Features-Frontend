@@ -1,20 +1,17 @@
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
-import Navbarcustom from "./Components/Navbarcustom";
+import Navbarcustom from "./Components/NavigationBarComponents/Navbarcustom";
 import Home from "./Components/Home";
 import Explore from "./Components/Explore";
 import Contact from "./Components/Contact";
 import Howitworks from "./Components/HowitWorks";
 import Exploremode from "./Components/Exploremode";
 import {useEffect, useState} from "react";
-import UserFeatureSubmitted from "./Components/UserFeatureSubmitted";
+import UserFeatureSubmitted from "./Components/UserFeatureSubmittedComponents/UserFeatureSubmitted";
 import Contribute from "./Components/Contribute";
 import {connect} from "react-redux";
 import axios from "axios";
 import mapStateToProps from "./Components/ReducerComponents/mapStateToProps";
 import mapDispatchToProps from "./Components/ReducerComponents/mapDispatchToProps";
-import WarningPage from "./Components/WarningPage";
-import Timeout from "./Components/Timeout";
-import SyntaxError from "./Components/SyntaxError";
 
 const App = (props) => {
     const [featureCode, setFeatureCode] = useState('');

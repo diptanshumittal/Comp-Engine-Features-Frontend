@@ -2,22 +2,26 @@ import React, {memo, useCallback, useEffect, useState} from 'react';
 import {connect} from "react-redux";
 import Graph from "react-graph-vis";
 import {v4} from "uuid";
-import mapStateToProps from "./ReducerComponents/mapStateToProps";
-import mapDispatchToProps from "./ReducerComponents/mapDispatchToProps";
+import mapStateToProps from "../ReducerComponents/mapStateToProps";
+import mapDispatchToProps from "../ReducerComponents/mapDispatchToProps";
 import axios from "axios";
+import Fab from '@material-ui/core/Fab';
+import {Link} from "react-router-dom";
 
 
 function NetworkGraph(props) {
     const [graph, setGraph] = useState();
     useEffect(() => {
         setGraph(props.networkGraph)
-    }, [])
+        console.log("herer")
+    }, [props.networkGraph])
     const [selectedFeature, setSelectedFeature] = useState({});
     const handleClick = async (action, data) => {
         if (action === 'NODE_SINGLE_CLICK') {
             setSelectedFeature({
                 Name: props.features[data.id].NAME,
-                Keyword: props.features[data.id].KEYWORDS
+                Keyword: props.features[data.id].KEYWORDS,
+                Id: data.id
             })
         }
         // if (action === 'NODE_DOUBLE_SINGLE_CLICK') {
@@ -33,12 +37,13 @@ function NetworkGraph(props) {
         <div>
             {graph &&
             <GetGraph displayer={memoHandleClick} graph={graph} url={props.url}/>}
-            <ul className="list-group" style={{marginLeft:"10%", marginRight:"10%",marginTop:"5%"}}>
+            <ul className="list-group"
+                style={{marginLeft: "15%", marginTop: "2%", width:'70%',marginRight: "15%",}}>
                 <li className="list-group-item d-flex justify-content-between align-items-center">
                     <b>Feature Name </b>
-                    <span className="badge badge-primary badge-pill">
-                          {selectedFeature.Name}
-                        </span>
+                    <Link to={`/exploremode/${selectedFeature.Id}/${selectedFeature.Name}`}>
+                        <span className="table-cell-trucate">{selectedFeature.Name}</span>
+                    </Link>
                 </li>
                 <li className="list-group-item d-flex justify-content-between align-items-center">
                     <b>Keywords</b>
@@ -104,9 +109,9 @@ const GetGraph = memo((props) => {
     }
     for (let i = 0; i < graph.edges.length; i++) {
         graph.edges[i].color = "green"
-        let length = parseFloat(graph.edges[i].label)*1000
+        let length = parseFloat(graph.edges[i].label) * 1000
         // console.log(length)
-        if (length<0){
+        if (length < 0) {
             graph.edges[i].color = "red"
         }
         length = Math.abs(length)
@@ -124,13 +129,25 @@ const GetGraph = memo((props) => {
     }
     // console.log(graph)
     return (
-        <Graph
-            key={v4()}
-            graph={graph}
-            options={options}
-            events={events}
-            interaction={interactions}
-        />
+        <div>
+            <Graph
+                key={v4()}
+                graph={graph}
+                options={options}
+                events={events}
+                interaction={interactions}
+            />
+            <Fab variant="extended" style={{display: 'flex', justifyContent: 'flex-start', position: "absolute", marginTop: "2%"}}
+                 onClick={() => {
+                     setGraph(props.graph)
+                 }}>
+                Recentre
+            </Fab>
+            {/*<Button variant="contained" color="primary" style={{margin: "5%"}}>*/}
+            {/*    Recentre*/}
+            {/*</Button>*/}
+
+        </div>
     )
 })
 
