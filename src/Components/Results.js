@@ -9,13 +9,14 @@ import VisualizationDrawer from "./VisualizationComponents/VisualizationDrawer";
 const Result = (props) => {
 
     useEffect(()=>{
+        console.log(props)
         if (props.tabledata && props.features)
             props.tabledata.map((item) => {
-                item.NAME = props.features[item.id].NAME
-                item.KEYWORDS = props.features[item.id].KEYWORDS
+                item.name = props.features[item.id].name
+                item.keywords = props.features[item.id].keywords
             })
         window.scrollTo(0, 0)
-    },[props.tabledata, props.features])
+    },[props.tabledata, props.features, props.linkCount])
 
     return (
         <div id="resultsec">

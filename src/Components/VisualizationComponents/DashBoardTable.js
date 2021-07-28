@@ -9,37 +9,37 @@ import React from "react";
 
 
 function createLink(params) {
-    return (<Link to={`/exploremode/${params.row.id}/${params.row.NAME}`}><Tooltip title={params.row.NAME}>
-        <span className="table-cell-trucate">{params.row.NAME}</span>
+    return (<Link to={`/exploremode/${params.row.id}/${params.row.name}`}><Tooltip title={params.row.name}>
+        <span className="table-cell-trucate">{params.row.name}</span>
     </Tooltip></Link>);
 }
 
 const DashboardTableColumns = [
     {
-        field: 'Rank',
+        field: 'rank',
         type: 'number',
         headerAlign: 'left',
         align: 'left',
         headerName: 'Rank',
         headerClassName: 'super-app-theme--header',
-        label: 'NAME',
+        label: 'name',
         flex: 0.12,
     },
     {
-        field: 'NAME',
+        field: 'name',
         headerName: 'Feature Names',
         headerClassName: 'super-app-theme--header',
         renderCell: createLink,
         flex: 0.4
     },
     {
-        field: 'KEYWORDS',
+        field: 'keywords',
         headerName: 'Tags',
         headerClassName: 'super-app-theme--header',
         flex: 0.3
     },
     {
-        field: 'COEF',
+        field: 'correlation',
         type: 'number',
         headerAlign: 'left',
         align: 'left',

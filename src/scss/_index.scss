@@ -1,75 +1,87 @@
 #homesec {
-body {
-  background-color: white;
-}
-.container {
-  margin-top: 8%;
-  background-color: white;
-  text-align: center;
-  height: 100vh;
-}
+  body {
+    background-color: white;
+  }
 
-.containerfluid {
-  padding-top: 100px;
-  background-color: white;
-  height: 100vh;
-  display: inline-flex;
-  overflow-wrap: break-word;
-}
+  .container {
+    margin-top: 4%;
+    background-color: white;
+    text-align: center;
+    height: 100vh;
+  }
 
-.leftside {
-  background-color: white;
-  width: 50%;
-}
-.rightside {
-  background-color: white;
-  width: 50%;
-}
-.form-container {
-  background: #fff;
-  padding: 30px;
-  width: 400px;
-  height: 400px;
-  border-radius: 10px;
-  box-shadow: 0px 0px 10px 0px #000;
-  margin-left: 20%;
-  margin-bottom: 10%;
-}
-.lead {
-  padding-top: 20px;
-  padding-bottom: 20px;
-}
+  .containerfluid {
+    padding-top: 100px;
+    background-color: white;
+    height: 100vh;
+    display: inline-flex;
+    overflow-wrap: break-word;
+  }
 
-.scatterimage {
-  margin-top: 8%;
-  margin-left: 20%;
-}
+  .leftside {
+    background-color: white;
+    width: 50%;
+  }
 
-.clustermap {
-  margin-top: 5%;
-  margin-left: 20%;
-}
+  .rightside {
+    background-color: white;
+    width: 50%;
+  }
 
-.display-1 {
-  font-weight: 350;
-}
+  .form-container {
+    background: #fff;
+    padding: 30px;
+    width: 400px;
+    height: 400px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px 0px #000;
+    margin-left: 20%;
+    margin-bottom: 10%;
+  }
 
-.message {
-  margin-bottom: 0px;
-}
+  .lead {
+    padding-top: 5px;
+    padding-bottom: 20px;
+  }
 
-.custom-file {
-  margin-top: 5%;
-}
+  .scatterimage {
+    margin-top: 8%;
+    margin-left: 20%;
+  }
 
-.form-group {
-  margin-top: 10%;
-  text-align: initial;
-}
+  .clustermap {
+    margin-top: 5%;
+    margin-left: 20%;
+  }
 
-.custom-file-label {
-  text-align: initial;
-}
+  .display-1 {
+    font-size: 4rem;
+    font-weight: 350;
+  }
+
+  .display-2{
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: #696f6f;
+
+  }
+
+  .message {
+    margin-bottom: 0px;
+  }
+
+  .custom-file {
+    margin-top: 5%;
+  }
+
+  .form-group {
+    margin-top: 10%;
+    text-align: initial;
+  }
+
+  .custom-file-label {
+    text-align: initial;
+  }
 }
 
 #btnsec {
@@ -103,6 +115,7 @@ body {
   body {
     background-color: white;
   }
+
   .lead {
     margin-top: 10px;
     text-align: center;
@@ -117,27 +130,31 @@ body {
 }
 
 #contactsec {
-  body{
+  body {
     background-color: white;
   }
-  .container{
+
+  .container {
     width: 60%;
     height: 50%;
     margin: 50px auto;
     background-color: white;
   }
 
-  .container .display-1,.lead{
+  .container .display-1, .lead {
     text-align: center;
   }
-  .container .display-1{
+
+  .container .display-1 {
     font-size: 70px;
   }
-  .container .lead{
+
+  .container .lead {
     font-size: 30px;
 
   }
-  .contact-box{
+
+  .contact-box {
     background-color: #212529;
 
     box-shadow: 0px 5px 15px 0px rgba(28, 0, 181, 0.3);
@@ -146,46 +163,46 @@ body {
   }
 
 
-  .contact-box h2{
+  .contact-box h2 {
     text-align: center;
     padding-top: 10%;
     color: white;
   }
 
 
-  .container p{
+  .container p {
     margin-bottom: 40px;
 
   }
 
-  table{
+  table {
     margin-top: 50px;
   }
-  tr td:first-child{
+
+  tr td:first-child {
     padding-right: 20px;
   }
 
-  tr td{
+  tr td {
     padding-top: 20px;
   }
 
 
-  .contact-box ul{
+  .contact-box ul {
     position: relative;
     margin-top: 15%;
     margin-left: 55%;
     padding: 0;
-    transform: translate(-50%,-50%);
+    transform: translate(-50%, -50%);
     display: flex;
     padding-bottom: 20px;
   }
 
 
-  .contact-box ul li{
+  .contact-box ul li {
     list-style: none;
     margin: 0 10px;
   }
-
 
 
   .contact-box ul li .fa {
@@ -195,12 +212,12 @@ body {
     transition: .5s;
   }
 
-  .contact-box ul li .fa:hover{
+  .contact-box ul li .fa:hover {
     color: #ffffff;
   }
 
 
-  .contact-box ul li a{
+  .contact-box ul li a {
     position: relative;
     display: block;
     width: 60px;
@@ -209,53 +226,54 @@ body {
     background-color: white;
     text-align: center;
     transition: 0.2s;
-    transform: translate(0,0px);
-    box-shadow: 0px 7px 5px rgba(0,0,0,0.5);
+    transform: translate(0, 0px);
+    box-shadow: 0px 7px 5px rgba(0, 0, 0, 0.5);
 
   }
 
-  .contact-box ul li a:hover{
+  .contact-box ul li a:hover {
     transform: rotate(0deg) skew(0deg);
-    translate: (0,-10px);
+    translate: (0, -10px);
   }
 
-  .contact-box ul li:nth-child(1) a:hover{
+  .contact-box ul li:nth-child(1) a:hover {
     background-color: red;
   }
 
 
-  .contact-box ul li:nth-child(2) a:hover{
+  .contact-box ul li:nth-child(2) a:hover {
     background-color: #000000;
   }
-  .contact-box ul li:nth-child(3) a:hover{
-    background-color:#1DA1F2;
+
+  .contact-box ul li:nth-child(3) a:hover {
+    background-color: #1DA1F2;
   }
 }
 
 #howitworkssec {
-  background-color:white;
+  background-color: white;
 
 
-  .container{
+  .container {
     background-color: white;
     text-align: center;
     padding: 30px;
   }
 
-  .section{
-    background-color:white;
+  .section {
+    background-color: white;
     display: flex;
     margin-top: 50px;
     padding-top: 5%;
   }
 
-  .section .left{
+  .section .left {
     background-color: white;
     width: 50%;
     height: 600px;
   }
 
-  .section .right{
+  .section .right {
     background-color: white;
     width: 50%;
     height: 600px;
@@ -269,10 +287,11 @@ body {
     margin-left: 20%;
   }
 
-  h3{
+  h3 {
     font-size: 45px;
   }
-  .text-muted{
+
+  .text-muted {
     font-size: 22px;
   }
 
@@ -283,15 +302,14 @@ body {
     font-size: 19px;
   }
 
-  .timeline{
+  .timeline {
     position: relative;
     margin: 50px auto;
     width: 1000px;
     box-sizing: border-box;
   }
 
-  .timeline:before
-  {
+  .timeline:before {
     content: '';
     position: absolute;
     left: 50%;
@@ -305,32 +323,31 @@ body {
     padding: 0;
   }
 
-  .timeline ul li
-  {
-    list-style:none;
+  .timeline ul li {
+    list-style: none;
     position: relative;
     width: 50%;
     padding: 20px 40px;
     box-sizing: border-box;
   }
 
-  .timeline ul li:nth-child(odd){
+  .timeline ul li:nth-child(odd) {
     float: left;
     text-align: right;
     clear: both;
   }
 
-  .timeline ul li:nth-child(even){
+  .timeline ul li:nth-child(even) {
     float: right;
     text-align: left;
     clear: both;
   }
 
-  .content{
+  .content {
     padding-bottom: 20px;
   }
 
-  .timeline ul li:nth-child(odd):before{
+  .timeline ul li:nth-child(odd):before {
     content: '';
     position: absolute;
     top: 24px;
@@ -342,7 +359,7 @@ body {
     box-shadow: 0 0 0 3px rgb(0, 0, 0);
   }
 
-  .timeline ul li:nth-child(even):before{
+  .timeline ul li:nth-child(even):before {
     content: '';
     position: absolute;
     top: 24px;
@@ -354,8 +371,7 @@ body {
     box-shadow: 0 0 0 3px rgb(0, 0, 0);
   }
 
-  .timeline ul li h3
-  {
+  .timeline ul li h3 {
     margin: 0;
     padding: 0;
     font-weight: 600;
@@ -363,17 +379,18 @@ body {
     font-size: 20px;
   }
 
-  .timeline ul li p{
+  .timeline ul li p {
     margin: 10px 0 0;
     padding: 0;
   }
-  .timeline ul li .time h4{
+
+  .timeline ul li .time h4 {
     margin: 2;
     padding: 5px;
     font-size: 14px;
   }
 
-  .timeline ul li:nth-child(odd) .time{
+  .timeline ul li:nth-child(odd) .time {
     position: absolute;
     top: 12px;
     right: -165px;
@@ -388,14 +405,14 @@ body {
     padding-right: 10px;
   }
 
-  .timeline ul li:nth-child(even) .time{
+  .timeline ul li:nth-child(even) .time {
     position: absolute;
     top: 12px;
     left: -165px;
     margin: 0;
     padding-bottom: 8px 16px;
     background: rgb(0, 0, 0);
-    color:#fff;
+    color: #fff;
     border-radius: 18px;
     box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.3);
     margin-top: 5;
@@ -403,23 +420,24 @@ body {
     padding-right: 10px;
   }
 
-  h1{
+  h1 {
     text-align: center;
     font-size: 60px;
   }
-  @media(max-width:1000px){
-    .timeline{
+
+  @media(max-width: 1000px) {
+    .timeline {
       width: 100%;
     }
   }
 
-  @media(max-width:767px){
-    h1{
+  @media(max-width: 767px) {
+    h1 {
       text-align: center;
       font-size: 40px;
-      padding: 0 20px ;
+      padding: 0 20px;
     }
-    .timeline{
+    .timeline {
       width: 100%;
       padding-bottom: 0;
     }
@@ -429,11 +447,11 @@ body {
 #resultsec {
   background-color: white;
 
-  .container{
+  .container {
     text-align: center;
   }
 
-  .scatterinteractive{
+  .scatterinteractive {
     margin-left: 0px;
     padding-left: 0px;
   }
@@ -443,6 +461,7 @@ body {
   body {
     background-color: white;
   }
+
   .container {
     margin-top: 8%;
     background-color: white;
@@ -457,10 +476,12 @@ body {
     display: inline-flex;
     overflow-wrap: break-word;
   }
+
   .rightside {
     background-color: white;
     width: 50%;
   }
+
   .form-container {
     background: #fff;
     padding: 50px;
@@ -469,6 +490,7 @@ body {
     box-shadow: 0px 0px 10px 0px #000;
     margin-bottom: 10%;
   }
+
   .lead {
     padding-top: 20px;
     padding-bottom: 20px;
@@ -505,82 +527,83 @@ body {
   }
 }
 
-#timeout{
-  body{
+#timeout {
+  body {
     background-color: white;
   }
 
-  .container{
+  .container {
     margin-top: 10%;
     text-align: center;
   }
 
-  .lead{
+  .lead {
     font-size: 30px;
   }
 
-  a{
+  a {
     color: white;
   }
 
 
-  a:hover{
+  a:hover {
     color: white;
   }
 }
 
-#syntaxerror{
-  body{
+#syntaxerror {
+  body {
     background-color: white;
     text-align: center;
   }
 
-  .display-2{
+  .display-2 {
     margin-top: 15%;
   }
 
-  .lead{
+  .lead {
     font-size: 30px;
   }
 
-  a{
+  a {
     color: white;
   }
 
-  button{
+  button {
     margin-top: 3%;
     width: 150px;
     height: 50px;
   }
 
-  a:hover{
-    color:beige;
+  a:hover {
+    color: beige;
   }
 }
 
-#warningpage{
-  body{
+#warningpage {
+  body {
     background-color: white;
   }
 
-  .container{
+  .container {
     background-color: white;
     margin-top: 8%;
     height: 650px;
   }
 
-  .splitsection{
+  .splitsection {
     display: flex;
 
   }
 
-  .left{
+  .left {
     background-color: #212529;
     height: 130px;
     width: 20%;
 
   }
-  .left img{
+
+  .left img {
 
     width: 150px;
     height: 120px;
@@ -588,7 +611,8 @@ body {
 
 
   }
-  .right{
+
+  .right {
     background-color: #212529;
     padding: 10px;
     text-align: center;
@@ -598,33 +622,34 @@ body {
 
   }
 
-  .subheading p{
+  .subheading p {
     margin-top: 2%;
     text-align: center;
     font-size: 30px;
   }
 
-  .instructions{
+  .instructions {
     padding-top: 30px;
     display: flex;
   }
 
-  .leftside{
+  .leftside {
     margin-left: 3%;
   }
-  .rightside img{
+
+  .rightside img {
     margin-left: 25%;
     height: 300px;
     width: 300px;
   }
 
-  .instructions .list-group li{
+  .instructions .list-group li {
     font-size: 20px;
-    margin-right:10%;
+    margin-right: 10%;
 
   }
 
-  .notes .lead{
+  .notes .lead {
     margin-top: 10%;
   }
 }

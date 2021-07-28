@@ -8,7 +8,7 @@ import axios from "axios";
 import {makeStyles} from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
-import FormHelperText from '@material-ui/core/FormHelperText';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 const useStyles = makeStyles((theme) => ({
@@ -135,10 +135,24 @@ const timeseriesplot = (xdata, ydata, title, color) => {
         width: 1000,
         height: 250,
         yaxis: {
+            title: {
+                text: "Value",
+                standoff: 10,
+                font: {
+                    size: 13
+                }
+            },
             zerolinecolor: '#000000',
             zerolinewidth: 1
         },
         xaxis: {
+            title: {
+                text: "Time",
+                standoff: 10,
+                font: {
+                    size: 13
+                }
+            },
             zerolinecolor: '#000000',
             zerolinewidth: 1,
             range: [-Math.floor(xdata.length*0.005), Math.floor(xdata.length*1.005)]
@@ -156,6 +170,8 @@ function CategoryPlot(props) {
     const [featureLayout, setFeatureLayout] = React.useState(false);
     const [lastclickIndex, setLastclickIndex] = React.useState(0);
     const [lastclickCurve, setLastclickCurve] = React.useState(0);
+    const [timeseriesLoading, setTimeseriesLoading] = React.useState(false);
+
     const handleChange = (event) => {
         const graph = setplotdata(props, event.target.value)
         setFeatureData(graph[0])
@@ -181,6 +197,7 @@ function CategoryPlot(props) {
             setTimeserieslayout(tlay)
         }
         else {
+            setTimeseriesLoading(true)
             axios.get(props.url + 'gettimeseries/' + index).then((response) => {
                 const ydata = response.data.ydata;
                 const xdata = response.data.xdata;
@@ -189,6 +206,7 @@ function CategoryPlot(props) {
                 props.addTimeseriesToBuffer(response.data,index)
                 setTimeseriesdata(tdata)
                 setTimeserieslayout(tlay)
+                setTimeseriesLoading(false)
             });
         }
     }
@@ -229,7 +247,7 @@ function CategoryPlot(props) {
             />
             }
             <br/>
-            {timeseriesdata &&
+            {timeseriesdata && !timeseriesLoading &&
             <Plot1
                 data={timeseriesdata}
                 layout={timeserieslayout}
@@ -238,6 +256,14 @@ function CategoryPlot(props) {
                     displaylogo: false
                 }}
             />
+            }
+            {timeseriesLoading &&
+            <CircularProgress />
+            }
+            {!timeseriesdata &&
+            <p>
+                Click on data points to load time series !!!
+            </p>
             }
         </div>
     );

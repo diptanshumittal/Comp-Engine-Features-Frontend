@@ -9,7 +9,6 @@ import mapDispatchToProps from "./ReducerComponents/mapDispatchToProps";
 
 const Home = (props) => {
     const hist = useHistory();
-    const [isPending, changeIsPending] = useState(false);
     const [file, setFile] = useState('');
     const [filename, setFilename] = useState('Upload your .py file here');
     const [featurename, setFeaturename] = useState('Upload your .py file here');
@@ -30,103 +29,83 @@ const Home = (props) => {
 
     return (
         <div>
-            {isPending && (
-                <div id="pageloader">
-                    <p className="display-4">
-                        <strong>This may take some time so sit back and relax.</strong>
+            <div id="homesec">
+                <div className="container">
+                    <h1 className="display-1">CompEngine: Time-Series Features</h1>
+                    <p className="display-2" style={{paddingTop:"20px"}}>A self-organizing database of time-series analysis features!</p>
+                    <p className="lead">Welcome to CompEngine: Time-Series Features! Scientists have
+                        developed thousands of methods to understand patterns in time-series data.
+                        This website allows you to explore over 7000 such methods, or upload your own and
+                        compare its behavior to our full library!
+                        Click the buttons below to <Link to="/howitworks" onClick={props.addLinkCount}>learn more</Link>,
+                        or <Link to="/explore" onClick={props.addLinkCount}>explore</Link> our features,
+                        or fill in the box below to upload your own code.
                     </p>
-                    <div className={{display: "flex", justifyContent: "center"}}>
-                        <img src={img2}/>
-                    </div>
-                </div>
-            )}
-            {!isPending && (
-                <div id="homesec">
-                    <div
-                        className="alert alert-success alert-dismissible fade show message"
-                        role="alert"
-                    >
-                        <strong>Holy Welcome!</strong> Please check the <b>How it works</b>{" "}
-                        page to understand the python code structure .
-                        <button
-                            type="button"
-                            className="close"
-                            data-dismiss="alert"
-                            aria-label="Close"
-                        >
-                            <span aria-hidden="true">&times;</span>
+                    <div id="btnsec" className="buttonssection">
+                        <button type="button" className="btn btn-dark btn-lg">
+                            <Link to="/howitworks" onClick={props.addLinkCount}>Learn More</Link>
+                        </button>
+                        {" "}
+                        <button type="button" className="btn btn-dark btn-lg">
+                            <Link to="/explore" onClick={props.addLinkCount}>Explore</Link>
                         </button>
                     </div>
-                    <div className="container">
-                        <h1 className="display-1">Comp-Engine-Features</h1>
-                        <p className="lead">{props.lorem}
-                        </p>
-                        <div id="btnsec" className="buttonssection">
-                            <button type="button" className="btn btn-dark btn-lg">
-                                <Link to="/howitworks" onClick={props.addLinkCount}>Learn More</Link>
-                            </button>
-                            {" "}
-                            <button type="button" className="btn btn-dark btn-lg">
-                                <Link to="/explore" onClick={props.addLinkCount}> Explore</Link>
-                            </button>
+
+                    <div className="containerfluid">
+                        <div className="leftside">
+                            <div className="image-control">
+                                <img src={img1} width="400px" height="400px"/>
+                            </div>
                         </div>
 
-                        <div className="containerfluid">
-                            <div className="leftside">
-                                <div className="image-control">
-                                    <img src={img1} width="400px" height="400px"/>
+                        <div className="rightside">
+                            <form
+                                id="myform"
+                                className="form-container"
+                                onSubmit={onSubmit}
+                            >
+                                <div className="form-group">
+                                    <label>Function Name</label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        aria-describedby="emailHelp"
+                                        placeholder="Enter function name"
+                                        required
+                                        onChange={onChangeName}
+                                    />
+                                    <small id="emailHelp" className="form-text text-muted">
+                                        Function name should be same as defined in python file.
+                                    </small>
                                 </div>
-                            </div>
 
-                            <div className="rightside">
-                                <form
-                                    id="myform"
-                                    className="form-container"
-                                    onSubmit={onSubmit}
-                                >
-                                    <div className="form-group">
-                                        <label>Function Name</label>
+                                <div className="input-group mb-3">
+                                    <div className="custom-file">
                                         <input
-                                            type="text"
-                                            className="form-control"
-                                            aria-describedby="emailHelp"
-                                            placeholder="Enter function name"
+                                            type="file"
+                                            className="custom-file-input"
                                             required
-                                            onChange={onChangeName}
+                                            onChange={onChangeFile}
                                         />
-                                        <small id="emailHelp" className="form-text text-muted">
-                                            Function name should be same as defined in python file.
-                                        </small>
+                                        <label
+                                            className="custom-file-label"
+                                            aria-describedby="inputGroupFileAddon02">
+                                            {filename}
+                                        </label>
                                     </div>
-
-                                    <div className="input-group mb-3">
-                                        <div className="custom-file">
-                                            <input
-                                                type="file"
-                                                className="custom-file-input"
-                                                required
-                                                onChange={onChangeFile}
-                                            />
-                                            <label
-                                                className="custom-file-label"
-                                                aria-describedby="inputGroupFileAddon02">
-                                                {filename}
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <button
-                                        type="submit"
-                                        value="submit"
-                                        className="btn btn-primary"
-                                    >
-                                        Submit
-                                    </button>
-                                </form>
-                            </div>
+                                </div>
+                                <button
+                                    type="submit"
+                                    value="submit"
+                                    className="btn btn-primary"
+                                >
+                                    Submit
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>
-            )}
+            </div>
         </div>
     );
 };

@@ -36,6 +36,7 @@ const Exploremode = (props) => {
         else{
             props.addLinkCount()
             axios.get(url).then((response) => {
+                console.log(response)
                 changeTabledata(response.data.tabledata);
                 changeMatches(response.data.totalmatches);
                 changeFname(response.data.featurename);

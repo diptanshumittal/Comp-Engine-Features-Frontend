@@ -7,6 +7,7 @@ import ToggleButton from "@material-ui/lab/ToggleButton";
 import PlotlyComponent from "./PlotlyComponent";
 import CategoryPlot from "./CategoryPlot";
 import NetworkGraph from "./NetworkGraph";
+import ScatterPlotsGroup from "./ScatterPlotsGroup";
 
 
 const VisualizationDrawer = (props) => {
@@ -37,18 +38,19 @@ const VisualizationDrawer = (props) => {
                 border: "1px solid rgba(0,0,0,0.12)"
             }}>
                 <br/>
-                {visualization === "scatterPlot" &&
-                props.scatterPlotGraphs.yaxes.map((yaxis, index) => {
-                        if (index < 12) {
-                            return (
-                                <PlotlyComponent index={index} xdata={props.scatterPlotGraphs.xaxis.xdata}
-                                                 ydata={yaxis.ydata}
-                                                 xtit={props.scatterPlotGraphs.xaxis.xtit} ytit={yaxis.ytit}
-                                                 title={yaxis.title} timeseriesnames={props.timeseriesnames}/>
-                            );
-                        }
-                    }
-                )
+
+                {visualization === "scatterPlot" && <ScatterPlotsGroup {...props}/>
+                // props.scatterPlotGraphs.yaxes.map((yaxis, index) => {
+                //         if (index < 12) {
+                //             return (
+                //                 <PlotlyComponent index={index} xdata={props.scatterPlotGraphs.xaxis.xdata}
+                //                                  ydata={yaxis.ydata}
+                //                                  xtit={props.scatterPlotGraphs.xaxis.xtit} ytit={yaxis.ytit}
+                //                                  title={yaxis.title} timeseriesnames={props.timeseriesnames}/>
+                //             );
+                //         }
+                //     }
+                // )
                 }
                 {visualization === "categoryPlot" &&
                 <CategoryPlot graphs={props.scatterPlotGraphs} timeseriesnames={props.timeseriesnames}
@@ -64,7 +66,7 @@ const VisualizationDrawer = (props) => {
                 />
                 }
                 {visualization === "network" &&
-                <NetworkGraph networkGraph={props.networkGraph}/>
+                <NetworkGraph {...props}/>
                 }
             </div>
         </div>
