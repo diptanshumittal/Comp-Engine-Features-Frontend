@@ -11,7 +11,8 @@ import ScatterPlotsGroup from "./ScatterPlotsGroup";
 
 
 const VisualizationDrawer = (props) => {
-    const [visualization, setVisualisation] = React.useState("network");
+    console.log(props)
+    const [visualization, setVisualisation] = React.useState("scatterPlot");
     const setVisualization = (event, newAlignment) => {
         setVisualisation(newAlignment)
     }
@@ -34,7 +35,7 @@ const VisualizationDrawer = (props) => {
                 </ToggleButton>
             </ToggleButtonGroup>
             <div style={{
-                overflow: "scroll", height: "900px", width: "100%",
+                overflow: "scroll", height: "950px", width: "100%",
                 border: "1px solid rgba(0,0,0,0.12)"
             }}>
                 <br/>

@@ -86,6 +86,7 @@ const PrettoSlider = withStyles({
 const ScatterPlotsGroup = (props) => {
     const [state, setState] = useState(true)
     const [totalPlots, setTotalPlots] = useState(3)
+    console.log(props)
     return (
         <div>
             <Typography component="div" style={{margin: '20px'}}>

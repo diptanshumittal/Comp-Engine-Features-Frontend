@@ -6,8 +6,10 @@ const initstate = {
     features: null,
     fid: "",
     fname: "",
-    featureBuffer: [],
-    timeseriesBuffer: [],
+    featureBuffer: {},
+    timeseriesBuffer: {},
+    keywordSearch: false,
+    popKeywords: []
 }
 
 
@@ -24,6 +26,12 @@ const rootReducer = (state = initstate, action) => {
             features: action.data
         }
     }
+    if (action.type === "UPDATE_KEYWORD_SEARCH") {
+        return {
+            ...state,
+            keywordSearch: action.data
+        }
+    }
     if(action.type === "ADD_FEATURE_DATA_TO_BUFFER"){
         state.featureBuffer[action.data.name] = action.data.res
         return {
@@ -32,6 +40,12 @@ const rootReducer = (state = initstate, action) => {
     }
     if(action.type === "ADD_TIME_SERIES_TO_BUFFER"){
         state.timeseriesBuffer[action.data.name] = action.data.res
+        return {
+            ...state
+        }
+    }
+    if(action.type === "ADD_POP_KEYWORDS"){
+        state.popKeywords = action.data
         return {
             ...state
         }

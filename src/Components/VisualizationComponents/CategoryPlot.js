@@ -5,12 +5,14 @@ import {connect} from "react-redux";
 import mapStateToProps from "../ReducerComponents/mapStateToProps";
 import mapDispatchToProps from "../ReducerComponents/mapDispatchToProps";
 import axios from "axios";
+import Tooltip from "@material-ui/core/Tooltip";
 import {makeStyles} from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+
 const useStyles = makeStyles((theme) => ({
     formControl: {
         margin: theme.spacing(1),
@@ -31,7 +33,7 @@ const setplotdata = (props, ind) => {
         margin: {
             l: 55,
             b: 90,
-            t: 30,
+            t: 60,
             r: 65,
         },
         showlegend: true,
@@ -41,14 +43,14 @@ const setplotdata = (props, ind) => {
             itemwidth: 10
         },
         title: {
-            text: props.graphs.yaxes[ind].ytit + '    |    ' + props.graphs.yaxes[ind].title,
+            text: props.graphs.yaxes[ind].ytit + '    |    ' + props.graphs.yaxes[ind].title + '<br>Keywords : ' + props.features[props.graphs.yaxes[ind].yfid].keywords,
             font: {
-                size: 18
+                size: 15
             },
             x: 0.06,
         },
         width: 714 + x,
-        height: 500 + x,
+        height: 530 + x,
         yaxis: {
             title: {
                 text: props.graphs.yaxes[ind].ytit,
@@ -87,6 +89,7 @@ const setplotdata = (props, ind) => {
             x: props.graphs.xaxis.xdata[i],
             y: props.graphs.yaxes[ind].ydata[i],
             mode: 'markers',
+            hoverinfo: "x+y+text",
             text: props.timeseriesnames[i],
             name: props.timeseriescategory[i],
             marker: {
@@ -117,7 +120,7 @@ const timeseriesplot = (xdata, ydata, title, color) => {
         margin: {
             l: 55,
             r: 30,
-            b: 100,
+            b: 40,
             t: 22,
         },
         pad: {
@@ -127,7 +130,7 @@ const timeseriesplot = (xdata, ydata, title, color) => {
             r: 0
         },
         title: {
-            text: title,
+            text: '<a href="https://www.comp-engine.org/#!search/' + title + '">' + title + '</a>',
             font: {
                 size: 15
             }
@@ -155,7 +158,7 @@ const timeseriesplot = (xdata, ydata, title, color) => {
             },
             zerolinecolor: '#000000',
             zerolinewidth: 1,
-            range: [-Math.floor(xdata.length*0.005), Math.floor(xdata.length*1.005)]
+            range: [-Math.floor(xdata.length * 0.005), Math.floor(xdata.length * 1.005)]
         },
         plot_bgcolor: '#ededed'
     }
@@ -188,22 +191,21 @@ function CategoryPlot(props) {
         setFeatureData(gdata);
         const index = data.points[0].text;
 
-        if(props.timeseriesBuffer[index] !== undefined){
+        if (props.timeseriesBuffer[index] !== undefined) {
             const ydata = props.timeseriesBuffer[index].ydata;
             const xdata = props.timeseriesBuffer[index].xdata;
             const title = props.timeseriesBuffer[index].name;
             const [tdata, tlay] = timeseriesplot(xdata, ydata, title, data.points[0].data.marker.color)
             setTimeseriesdata(tdata)
             setTimeserieslayout(tlay)
-        }
-        else {
+        } else {
             setTimeseriesLoading(true)
             axios.get(props.url + 'gettimeseries/' + index).then((response) => {
                 const ydata = response.data.ydata;
                 const xdata = response.data.xdata;
                 const title = response.data.name;
                 const [tdata, tlay] = timeseriesplot(xdata, ydata, title, data.points[0].data.marker.color)
-                props.addTimeseriesToBuffer(response.data,index)
+                props.addTimeseriesToBuffer(response.data, index)
                 setTimeseriesdata(tdata)
                 setTimeserieslayout(tlay)
                 setTimeseriesLoading(false)
@@ -211,11 +213,11 @@ function CategoryPlot(props) {
         }
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         const graph = setplotdata(props, 0)
         setFeatureData(graph[0])
         setFeatureLayout(graph[1])
-    },[])
+    }, [])
 
     const Plot = createPlotlyComponent(Plotly);
     const Plot1 = createPlotlyComponent(Plotly);
@@ -240,7 +242,7 @@ function CategoryPlot(props) {
                 data={featureData}
                 layout={featureLayout}
                 config={{
-                    modeBarButtonsToRemove: ['zoom2d', 'pan2d', 'select2d', 'zoomIn2d', 'zoomOut2d', 'autoScale2d', 'resetScale2d', 'hoverClosestCartesian', 'hoverCompareCartesian'],
+                    modeBarButtonsToRemove: ['zoom2d', 'pan2d', 'select2d', 'zoomIn2d', 'zoomOut2d', 'autoScale2d', 'resetScale2d', 'hoverClosestCartesian', 'hoverCompareCartesian', 'lasso2d'],
                     displaylogo: false
                 }}
                 onClick={(data) => handlePlotClick(data)}
@@ -252,13 +254,13 @@ function CategoryPlot(props) {
                 data={timeseriesdata}
                 layout={timeserieslayout}
                 config={{
-                    modeBarButtonsToRemove: ['zoom2d', 'pan2d', 'select2d', 'zoomIn2d', 'zoomOut2d', 'autoScale2d', 'resetScale2d', 'hoverClosestCartesian', 'hoverCompareCartesian'],
+                    modeBarButtonsToRemove: ['zoom2d', 'pan2d', 'select2d', 'zoomIn2d', 'zoomOut2d', 'autoScale2d', 'resetScale2d', 'hoverClosestCartesian', 'hoverCompareCartesian', 'lasso2d'],
                     displaylogo: false
                 }}
             />
             }
             {timeseriesLoading &&
-            <CircularProgress />
+            <CircularProgress/>
             }
             {!timeseriesdata &&
             <p>

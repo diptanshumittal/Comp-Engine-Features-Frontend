@@ -23,7 +23,8 @@ const App = (props) => {
     useEffect(() => {
         axios.get(props.url + 'getfeatures').then((response) => {
             // console.log(response)
-            props.addFeatures(response.data);
+            props.addFeatures(response.data.featureDic);
+            props.addPopKeywords(response.data.popKeywords)
         });
     }, [])
 
@@ -41,9 +42,12 @@ const App = (props) => {
                     <Route exact path="/contact">
                         <Contact/>
                     </Route>
-                    <Route exact path="/contribute">
+                    <Route exact path="/contribute" >
                         <Contribute/>
                     </Route>
+                    {/*<Route exact path="/explore/:keyword">*/}
+                    {/*    <Explore/>*/}
+                    {/*</Route>*/}
                     <Route exact path="/exploremode/:id/:name">
                         <Exploremode/>
                     </Route>

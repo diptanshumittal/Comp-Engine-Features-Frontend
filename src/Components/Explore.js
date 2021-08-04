@@ -1,6 +1,6 @@
 import img2 from "../assets/img/preloader.gif";
-import {Helmet} from "react-helmet";
-import {Link} from 'react-router-dom';
+import Chip from '@material-ui/core/Chip';
+import {Link, useParams} from 'react-router-dom';
 import {connect} from "react-redux";
 import mapStateToProps from "./ReducerComponents/mapStateToProps";
 import mapDispatchToProps from "./ReducerComponents/mapDispatchToProps";
@@ -12,6 +12,7 @@ import {
 } from '@material-ui/data-grid';
 import {makeStyles} from '@material-ui/styles';
 import {useEffect, useState} from "react";
+import Pageloader from "./Pageloader";
 
 
 function createLink(params) {
@@ -20,31 +21,52 @@ function createLink(params) {
     </Tooltip></Link>);
 }
 
-const columns = [
-    {
-        field: 'id',
-        type: 'number',
-        headerName: 'S.No',
-        headerAlign: 'left',
-        align: 'left',
-        headerClassName: 'super-app-theme--header',
-        label: 'NAME',
-        flex: 0.1,
-    },
-    {
-        field: 'name',
-        headerName: 'Feature Names',
-        headerClassName: 'super-app-theme--header',
-        renderCell: createLink,
-        flex: 0.4
-    },
-    {
-        field: 'keywords',
-        headerName: 'Tags',
-        headerClassName: 'super-app-theme--header',
-        flex: 0.4
+function idColumn(params) {
+    return <p style={{marginBottom:"0px"}}>{params.row.id}</p>
+}
+
+function splitTags(params, updater) {
+    // console.log(params,updater)
+    const onClick = e => {
+        // console.log(e.target.innerText)
+        updater(e.target.innerText)
     }
-];
+    return (
+        params.row.keywords.split(',').map((item, index) => {
+            return <Chip label={item} onClick={onClick} key={item}/>
+        })
+    );
+}
+
+const columns = (updater) =>{
+    return [
+        {
+            field: 'id',
+            type: 'number',
+            headerName: 'ID',
+            headerAlign: 'left',
+            align: 'left',
+            headerClassName: 'super-app-theme--header',
+            label: 'NAME',
+            flex: 0.1,
+            renderCell: idColumn,
+        },
+        {
+            field: 'name',
+            headerName: 'Feature Names',
+            headerClassName: 'super-app-theme--header',
+            renderCell: createLink,
+            flex: 0.4
+        },
+        {
+            field: 'keywords',
+            headerName: 'Tags',
+            headerClassName: 'super-app-theme--header',
+            renderCell: (params) => { return splitTags(params, updater)},
+            flex: 0.4
+        }
+    ]
+}
 
 
 const useStyles = makeStyles({
@@ -73,61 +95,92 @@ const useStyles = makeStyles({
 
 function StylingCellsGrid(props) {
     const classes = useStyles();
+    const [keyword, setKeyword] = useState(props.keywordSearch)
+    const changeKeyword = (value) => {
+        setKeyword(value)
+    }
+    const keywordSelected = e => {
+        setKeyword(e.target.innerText)
+    }
+    useEffect(() => {
+        if(props.keywordSearch !== false){
+            props.addLinkCount()
+            setKeyword(props.keywordSearch)
+            props.updateKeywordSearch(false)
+        }
+    },[props.keywordSearch])
+    // console.log(keyword)
     return (
         <div style={{height: 730, width: '100%'}} className={classes.root}>
-            <DataGrid pagination disableSelectionOnClick rowBuffer={20} rows={props.features} columns={columns}
+            <div style={{display: "flex", marginBottom: "20px"}}>
+                <p style={{marginRight: "20px", marginBottom: '0px', fontSize: "20px", fontWeight: "500"}}>Popular tags     :</p>
+                {props.popKeywords.map((item, index) => {
+                    return <Chip label={item} onClick={keywordSelected} key={item} style={{marginRight: "4px"}}/>
+                })}
+
+            </div>
+
+            {!keyword &&
+            <DataGrid pagination disableSelectionOnClick rowBuffer={5} rows={props.features} columns={columns(changeKeyword)}
+                      rowHeight={40}
                       components={{
                           Toolbar: GridToolbar,
-                      }}/>
+                      }}
+            />
+            }
+            {keyword !== false &&
+            <DataGrid pagination disableSelectionOnClick rowBuffer={5} rows={props.features} columns={columns(changeKeyword)}
+                      rowHeight={40}
+                      components={{
+                          Toolbar: GridToolbar,
+                      }}
+                      filterModel={{
+                          items: [{columnField: 'keywords', operatorValue: 'contains', value: keyword}],
+                      }}
+            />
+            }
         </div>
     );
 }
 
 
 const Explore = (props) => {
-    // if (props.features)
-    //     for (let index = 0; index < props.features.length; index++)
-    //         props.features[index].id = index
-    console.log(props)
-
     const [features, setFeatures] = useState([]);
-
-    useEffect(() =>{
-        if(props.features) {
+    useEffect(() => {
+        if (props.features) {
             let tFeatures = [];
             for (const [key, val] of Object.entries(props.features)) {
                 tFeatures.push(val);
             }
-            console.log(tFeatures);
             setFeatures(tFeatures);
         }
-    },[props.features])
-
-
-
+    }, [props.features])
     return (
         <div>
             {props.features === null && (
-                <div id="pageloader">
-                    <p className="display-4">
-                        <strong>This may take some time so sit back and relax.</strong>
-                    </p>
-                    <div className={{display: "flex", justifyContent: "center"}}>
-                        <img src={img2}/>
-                    </div>
-                </div>
+                <Pageloader/>
             )}
             {props.features && (
                 <div className="container mt-2 mb-2">
                     <br/><br/>
                     <div id="exploresec">
-                        <div className="display-1">Explore time series features</div>
-                        <hr/>
-                        <p className="lead">
-                            {props.lorem}
-                        </p>
+                        <div className="display-1">Explore</div>
+                        <ul className="list">
+                            <li>
+                                Below are the full set of {props.features.length} time-series analysis features taken from
+                                the <a target="_blank" href="https://github.com/benfulcher/hctsa" >hctsa</a> time-series analysis package
+                                . Implementations of the features below can be found in hctsa (see <Link to="/howitworks" onClick={props.addLinkCount}>How It Works</Link> for more information)."
+                            </li>
+                            <li>
+                                Click on a time-series feature name below to visualize its closest relationships to all other time-series analysis features in our library
+                                . Four different visualizations are available
+                                , which allow you to inspect the relationships between different scientific methods for time-series analysis
+                                . To learn more about any given feature, see the code and documentation of <a target="_blank" href="https://github.com/benfulcher/hctsa" >hctsa</a>.
+                            </li>
+                        </ul>
                     </div>
-                    <StylingCellsGrid features={features}/>
+                    {/*<StylingCellsGrid features={features} keywordSearch={props.keywordSearch}/>*/}
+                    <StylingCellsGrid {...props} features={features}/>
                 </div>
             )}
         </div>
