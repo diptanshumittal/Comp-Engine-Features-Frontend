@@ -1,17 +1,19 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import Plotly from "plotly.js-basic-dist";
 import createPlotlyComponent from "react-plotly.js/factory";
 import {connect} from "react-redux";
 import mapStateToProps from "../ReducerComponents/mapStateToProps";
 import mapDispatchToProps from "../ReducerComponents/mapDispatchToProps";
 import axios from "axios";
-import Tooltip from "@material-ui/core/Tooltip";
-import {makeStyles} from '@material-ui/core/styles';
+import {makeStyles, withStyles} from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import Grid from "@material-ui/core/Grid";
+import Typography from "@material-ui/core/Typography";
+import Switch from "@material-ui/core/Switch";
 
 const useStyles = makeStyles((theme) => ({
     formControl: {
@@ -23,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const setplotdata = (props, ind) => {
+const setplotdata = (props, ind, state) => {
     let x = 0
     let grdata = [];
     let colors = ['blue', 'orange', 'green', 'red', 'purple']
@@ -97,6 +99,10 @@ const setplotdata = (props, ind) => {
                 size: Array.from(Array(props.graphs.xaxis.xdata[i].length).fill(5))
             }
         }
+        if(state === false){
+            dic.x = props.graphs.xaxis.xdataraw[i]
+            dic.y = props.graphs.yaxes[ind].ydataraw[i]
+        }
         grdata.push(dic);
     }
     return [grdata, layout]
@@ -165,6 +171,40 @@ const timeseriesplot = (xdata, ydata, title, color) => {
     return [data, layout]
 }
 
+const AntSwitch = withStyles((theme) => ({
+    root: {
+        width: 40,
+        height: 16,
+        padding: 0,
+        display: 'flex',
+    },
+    switchBase: {
+        padding: 2,
+        color: theme.palette.grey[500],
+        '&$checked': {
+            transform: 'translateX(24px)',
+            color: theme.palette.common.white,
+            '& + $track': {
+                opacity: 1,
+                backgroundColor: theme.palette.primary.main,
+                borderColor: theme.palette.primary.main,
+            },
+        },
+    },
+    thumb: {
+        width: 12,
+        height: 12,
+    },
+    track: {
+        border: `1px solid ${theme.palette.grey[500]}`,
+        borderRadius: 16 / 2,
+        opacity: 1,
+        backgroundColor: theme.palette.common.white,
+    },
+    checked: {},
+}))(Switch);
+
+
 function CategoryPlot(props) {
     const [timeseriesdata, setTimeseriesdata] = React.useState(false);
     const [timeserieslayout, setTimeserieslayout] = React.useState(false);
@@ -174,11 +214,11 @@ function CategoryPlot(props) {
     const [lastclickIndex, setLastclickIndex] = React.useState(0);
     const [lastclickCurve, setLastclickCurve] = React.useState(0);
     const [timeseriesLoading, setTimeseriesLoading] = React.useState(false);
+    const [state, setState] = useState(true)
+    const [formValue, setFormValue] = useState(0)
 
     const handleChange = (event) => {
-        const graph = setplotdata(props, event.target.value)
-        setFeatureData(graph[0])
-        setFeatureLayout(graph[1])
+        setFormValue(event.target.value)
     };
     const handlePlotClick = (data) => {
         let cn = data.points[0].curveNumber;
@@ -214,29 +254,39 @@ function CategoryPlot(props) {
     }
 
     useEffect(() => {
-        const graph = setplotdata(props, 0)
+        const graph = setplotdata(props, formValue, state)
         setFeatureData(graph[0])
         setFeatureLayout(graph[1])
-    }, [])
+    }, [formValue, state])
 
     const Plot = createPlotlyComponent(Plotly);
     const Plot1 = createPlotlyComponent(Plotly);
     return (
         <div>
-            <FormControl className={classes.formControl}>
-                <InputLabel>Select Feature</InputLabel>
-                <Select
-                    autoWidth
-                    onChange={handleChange}
-                    defaultValue={0}
-                >
-                    {props.graphs.yaxes.map((graph, index) => (
-                        <MenuItem value={index}>{graph.ytit}</MenuItem>
-                    ))}
-                </Select>
-            </FormControl>
-            <br/>
-            <br/>
+            <div style={{display:"flex", margin: '2% 10%', justifyContent: "space-between", alignItems: "center"}}>
+                <FormControl className={classes.formControl}>
+                    <InputLabel>Select Feature</InputLabel>
+                    <Select
+                        autoWidth
+                        onChange={handleChange}
+                        defaultValue={0}
+                    >
+                        {props.graphs.yaxes.map((graph, index) => (
+                            <MenuItem value={index} key={index}>{graph.ytit}</MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
+                <Typography component="div" style={{marginLeft: '20px', width:'fit-content'}}>
+                    <Grid container alignItems="center">
+                        <Grid item container alignItems="center" spacing={1} style={{display: "flex", justifyContent: "flex-start"}}>
+                            <Grid item>Raw</Grid>
+                            <Grid item><AntSwitch checked={state} onChange={() => {setState(!state)}}/></Grid>
+                            <Grid item>Ranked</Grid>
+                        </Grid>
+                    </Grid>
+                </Typography>
+            </div>
+
             {featureLayout &&
             <Plot
                 data={featureData}

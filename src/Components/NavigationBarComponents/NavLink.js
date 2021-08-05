@@ -4,7 +4,7 @@ import {connect} from "react-redux";
 import mapStateToProps from "../ReducerComponents/mapStateToProps";
 import mapDispatchToProps from "../ReducerComponents/mapDispatchToProps";
 
-class Nav_Link extends React.Component {
+class NavLink extends React.Component {
     render() {
         var isActive = window.location.pathname === this.props.to;
         var clsname = isActive ? 'active' : '';
@@ -15,4 +15,4 @@ class Nav_Link extends React.Component {
         );
     }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(Nav_Link)
+export default connect(mapStateToProps, mapDispatchToProps)(NavLink)

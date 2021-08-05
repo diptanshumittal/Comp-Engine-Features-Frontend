@@ -1,15 +1,11 @@
-import img2 from "../assets/img/preloader.gif";
 import Chip from '@material-ui/core/Chip';
-import {Link, useParams} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import {connect} from "react-redux";
 import mapStateToProps from "./ReducerComponents/mapStateToProps";
 import mapDispatchToProps from "./ReducerComponents/mapDispatchToProps";
 import Tooltip from "@material-ui/core/Tooltip";
 import * as React from 'react';
-import {
-    DataGrid,
-    GridToolbar
-} from '@material-ui/data-grid';
+import {DataGrid, GridToolbar} from '@material-ui/data-grid';
 import {makeStyles} from '@material-ui/styles';
 import {useEffect, useState} from "react";
 import Pageloader from "./Pageloader";
@@ -22,13 +18,11 @@ function createLink(params) {
 }
 
 function idColumn(params) {
-    return <p style={{marginBottom:"0px"}}>{params.row.id}</p>
+    return <p style={{marginBottom: "0px"}}>{params.row.id}</p>
 }
 
 function splitTags(params, updater) {
-    // console.log(params,updater)
     const onClick = e => {
-        // console.log(e.target.innerText)
         updater(e.target.innerText)
     }
     return (
@@ -38,7 +32,7 @@ function splitTags(params, updater) {
     );
 }
 
-const columns = (updater) =>{
+const columns = (updater) => {
     return [
         {
             field: 'id',
@@ -62,12 +56,13 @@ const columns = (updater) =>{
             field: 'keywords',
             headerName: 'Tags',
             headerClassName: 'super-app-theme--header',
-            renderCell: (params) => { return splitTags(params, updater)},
+            renderCell: (params) => {
+                return splitTags(params, updater)
+            },
             flex: 0.4
         }
     ]
 }
-
 
 const useStyles = makeStyles({
     root: {
@@ -103,17 +98,17 @@ function StylingCellsGrid(props) {
         setKeyword(e.target.innerText)
     }
     useEffect(() => {
-        if(props.keywordSearch !== false){
+        if (props.keywordSearch !== false) {
             props.addLinkCount()
             setKeyword(props.keywordSearch)
             props.updateKeywordSearch(false)
         }
-    },[props.keywordSearch])
-    // console.log(keyword)
+    }, [props.keywordSearch])
     return (
         <div style={{height: 730, width: '100%'}} className={classes.root}>
             <div style={{display: "flex", marginBottom: "20px"}}>
-                <p style={{marginRight: "20px", marginBottom: '0px', fontSize: "20px", fontWeight: "500"}}>Popular tags     :</p>
+                <p style={{marginRight: "20px", marginBottom: '0px', fontSize: "20px", fontWeight: "500"}}>Popular tags
+                    :</p>
                 {props.popKeywords.map((item, index) => {
                     return <Chip label={item} onClick={keywordSelected} key={item} style={{marginRight: "4px"}}/>
                 })}
@@ -121,7 +116,8 @@ function StylingCellsGrid(props) {
             </div>
 
             {!keyword &&
-            <DataGrid pagination disableSelectionOnClick rowBuffer={5} rows={props.features} columns={columns(changeKeyword)}
+            <DataGrid pagination disableSelectionOnClick rowBuffer={5} rows={props.features}
+                      columns={columns(changeKeyword)}
                       rowHeight={40}
                       components={{
                           Toolbar: GridToolbar,
@@ -129,7 +125,8 @@ function StylingCellsGrid(props) {
             />
             }
             {keyword !== false &&
-            <DataGrid pagination disableSelectionOnClick rowBuffer={5} rows={props.features} columns={columns(changeKeyword)}
+            <DataGrid pagination disableSelectionOnClick rowBuffer={5} rows={props.features}
+                      columns={columns(changeKeyword)}
                       rowHeight={40}
                       components={{
                           Toolbar: GridToolbar,
@@ -167,15 +164,22 @@ const Explore = (props) => {
                         <div className="display-1">Explore</div>
                         <ul className="list">
                             <li>
-                                Below are the full set of {props.features.length} time-series analysis features taken from
-                                the <a target="_blank" href="https://github.com/benfulcher/hctsa" >hctsa</a> time-series analysis package
-                                . Implementations of the features below can be found in hctsa (see <Link to="/howitworks" onClick={props.addLinkCount}>How It Works</Link> for more information)."
+                                Below are the full set of {props.features.length} time-series analysis features taken
+                                from
+                                the <a target="_blank" rel="noreferrer"
+                                       href="https://github.com/benfulcher/hctsa"><i>hctsa</i></a> time-series analysis
+                                package.
+                                Implementations of the features below can be found in hctsa (see <Link to="/howitworks"
+                                                                                                       onClick={props.addLinkCount}>How
+                                It Works</Link> for more information)."
                             </li>
                             <li>
-                                Click on a time-series feature name below to visualize its closest relationships to all other time-series analysis features in our library
-                                . Four different visualizations are available
-                                , which allow you to inspect the relationships between different scientific methods for time-series analysis
-                                . To learn more about any given feature, see the code and documentation of <a target="_blank" href="https://github.com/benfulcher/hctsa" >hctsa</a>.
+                                Click on a time-series feature name below to visualize its closest relationships to all
+                                other time-series analysis features in our library.
+                                Four different visualizations are available, which allow you to inspect the
+                                relationships between different scientific methods for time-series analysis.
+                                To learn more about any given feature, see the code and documentation of <a
+                                target="_blank" rel="noreferrer" href="https://github.com/benfulcher/hctsa"><i>hctsa</i></a>.
                             </li>
                         </ul>
                     </div>

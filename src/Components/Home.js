@@ -1,5 +1,4 @@
 import img1 from "../assets/img/compengine-infographic.png";
-import img2 from "../assets/img/preloader.gif";
 import {useState} from "react";
 import {Link, useHistory} from "react-router-dom"
 import {connect} from "react-redux";
@@ -32,7 +31,7 @@ const Home = (props) => {
             <div id="homesec">
                 <div className="container">
                     <h1 className="display-1">CompEngine: Time-Series Features</h1>
-                    <p className="display-2" style={{paddingTop:"20px"}}>A self-organizing database of time-series analysis features!</p>
+                    <p className="display-2" style={{paddingTop:"20px"}}>A self-organizing database of time-series analysis features</p>
                     <p className="lead">Welcome to CompEngine: Time-Series Features! Scientists have
                         developed thousands of methods to understand patterns in time-series data.
                         This website allows you to explore over 7000 such methods, or upload your own and
@@ -54,7 +53,7 @@ const Home = (props) => {
                     <div className="containerfluid">
                         <div className="leftside">
                             <div className="image-control">
-                                <img src={img1} width="400px" height="400px"/>
+                                <img alt={""} src={img1} width="400px" height="400px"/>
                             </div>
                         </div>
 

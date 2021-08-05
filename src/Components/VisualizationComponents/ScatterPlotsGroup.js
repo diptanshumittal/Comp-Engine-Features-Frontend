@@ -7,18 +7,8 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import {useState} from "react";
 import PlotlyComponent from "./PlotlyComponent";
-import {makeStyles} from '@material-ui/core/styles';
 import Slider from '@material-ui/core/Slider';
 
-const useStyles = makeStyles({
-    root: {
-        width: 300,
-    },
-});
-
-function valuetext(value) {
-    return `${value}°C`;
-}
 
 const AntSwitch = withStyles((theme) => ({
     root: {
@@ -86,14 +76,14 @@ const PrettoSlider = withStyles({
 const ScatterPlotsGroup = (props) => {
     const [state, setState] = useState(true)
     const [totalPlots, setTotalPlots] = useState(3)
-    console.log(props)
+    // console.log(props)
     return (
         <div>
             <Typography component="div" style={{margin: '20px'}}>
                 <Grid container alignItems="center">
                     <Grid item  container alignItems="center" spacing={2} xs={9} style={{display: "flex", justifyContent: "flex-start"}}>
                         <Grid item>Plots for display</Grid>
-                        <Grid item xs={9} alignItems="center">
+                        <Grid item xs={9}>
                             <PrettoSlider valueLabelDisplay="auto" aria-label="pretto slider" defaultValue={3} min={1}
                                           max={props.scatterPlotGraphs.yaxes.length} onChange={(event, newValue) => {setTotalPlots(newValue)}}/>
                         </Grid>
@@ -112,9 +102,13 @@ const ScatterPlotsGroup = (props) => {
                         return (
                             <PlotlyComponent index={index} xdata={props.scatterPlotGraphs.xaxis.xdata}
                                              ydata={yaxis.ydata}
+                                             key={index}
                                              xtit={props.scatterPlotGraphs.xaxis.xtit} ytit={yaxis.ytit}
                                              title={yaxis.title} timeseriesnames={props.timeseriesnames}/>
                         );
+                    }
+                    else{
+                        return <div key={index}/>
                     }
                 }
             )
@@ -125,9 +119,13 @@ const ScatterPlotsGroup = (props) => {
                         return (
                             <PlotlyComponent index={index} xdata={props.scatterPlotGraphs.xaxis.xdataraw}
                                              ydata={yaxis.ydataraw}
+                                             key={index}
                                              xtit={props.scatterPlotGraphs.xaxis.xtit} ytit={yaxis.ytit}
                                              title={yaxis.title} timeseriesnames={props.timeseriesnames}/>
                         );
+                    }
+                    else{
+                        return <div key={index}/>
                     }
                 }
             )

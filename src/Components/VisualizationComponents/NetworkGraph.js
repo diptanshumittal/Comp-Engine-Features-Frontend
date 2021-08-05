@@ -210,8 +210,7 @@ function NetworkGraph(props) {
     const memoHandleClick = useCallback(handleClick, [])
     return (
         <div id="networkplot">
-            {graph && <GetGraph displayer={memoHandleClick} graph={graph} url={props.url} features={props.features}
-                                fname={props.featurename}/>}
+            {graph && <GetGraph displayer={memoHandleClick} graph={graph} url={props.url} features={props.features}/>}
             {!selectedFeature &&
             <div style={{marginLeft: "15%", marginTop: "2%", width: '70%', marginRight: "15%"}}>
                 <p>Single click on a node to view details</p>
@@ -266,8 +265,7 @@ function NetworkGraph(props) {
 
 const GetGraph = memo((props) => {
     const [graph, setGraph] = React.useState(props.graph);
-    const [totalNode, setTotalNode] = React.useState(20);
-    let selectedFeatureId = ""
+    const [totalNode, setTotalNode] = React.useState(15);
     const options = {
         nodes: {
             fixed: {
@@ -285,7 +283,7 @@ const GetGraph = memo((props) => {
         edges: {
             color: "#000000"
         },
-        height: "600px",
+        height: "500px",
         interaction: {
             navigationButtons: true,
             keyboard: true,
@@ -319,20 +317,14 @@ const GetGraph = memo((props) => {
                 props.displayer('NODE_SINGLE_CLICK', {
                     'id': graph.nodes[event.nodes[0]].fid
                 })
-                selectedFeatureId = graph.nodes[event.nodes[0]].title
             }
         },
         doubleClick: (event) => {
             let {nodes, edges} = event;
             if (nodes.length !== 0) {
                 axios.get(props.url + 'network/' + graph.nodes[event.nodes[0]].fid + '/' + totalNode).then((response) => {
-                    console.log(response.data)
                     setGraph(response.data.networkGraph)
                 });
-                // let data = props.displayer('NODE_DOUBLE_SINGLE_CLICK', {
-                //     'id':,
-                //     'totalNodes':
-                // })
             }
         },
     };
@@ -343,39 +335,18 @@ const GetGraph = memo((props) => {
         },
         width: 0.5,
         smooth: true
-        // smooth: {
-        //     type: 'cubicBezier',
-        //     roundness: 0.9
-        // }
     }
     for (let i = 0; i < graph.edges.length; i++) {
         if (i <= graph.edges.length / 2) {
             graph.edges[i].width = 2
-            // graph.edges[i].dashes = true
         }
-
         if (graph.edges[i].length <= 1) {
             graph.edges[i].title = graph.edges[i].length
             graph.edges[i].length = 1300 - Math.abs(graph.edges[i].length) * 1000
         }
-
         graph.edges[i] = {...additionalLayout, ...graph.edges[i]}
     }
     for (let i = 0; i < graph.nodes.length; i++) {
-        // graph.nodes[i].color = 'blue'
-        // if (graph.nodes[i].id === 0) {
-        //     graph.nodes[i].color = 'black'
-        // }
-        const addon = {
-            fixed: {
-                x: false,
-                y: false
-            },
-            shape: "dot",
-            size: 15,
-            borderWidth: 1.5,
-            borderWidthSelected: 2,
-        }
         if (graph.nodes[i].fid !== -1) {
             graph.nodes[i].title = props.features[graph.nodes[i].fid].name
         } else {
@@ -384,9 +355,8 @@ const GetGraph = memo((props) => {
         if (i === 0) {
             graph.nodes[i].color = "black"
         }
-
     }
-    console.log(graph)
+
     return (
         <div>
             <ul className="list-group" style={{width: "fit-content", position: "absolute"}}>

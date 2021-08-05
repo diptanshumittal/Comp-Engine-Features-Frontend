@@ -14,6 +14,7 @@ const UserFeatureSubmitted = (props) => {
     const [stat, changeStat] = useState("");
     const [isPending, changeIsPending] = useState(true);
     const [dashboardData, setDashboardData] = useState("");
+    const [pendingMessage, setPendingMessage] = useState("Running code against 1000 Empirical Timeseries")
     // const [tableData, changeTabledata] = useState([]);
     // const [totalMatches, changeMatches] = useState(0);
     // const [featurename, changeFname] = useState("");
@@ -25,39 +26,41 @@ const UserFeatureSubmitted = (props) => {
 
     useEffect(() => {
         props.addLinkCount()
-        console.log("UsersubmittedCode", props.featureName, props.featureCode);
+        // console.log("UsersubmittedCode", props.featureName, props.featureCode);
         const formData = new FormData();
         formData.append('featurecode', props.featureCode);
         formData.append('featurename', props.featureName);
-        axios.post(props.url+'result', formData, {
+        axios.post(props.url+'codesubmit', formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
         }).then((response) => {
-            console.log(response.data)
             if (response.data.stat === 1) {
-                setDashboardData(response.data)
-                // changeTabledata(response.data.tabledata);
-                // changeMatches(response.data.totalmatches);
-                // changeFname(response.data.featurename);
-                // changeImage(response.data.heatmap);
-                // changeScatterPlotGraphs(response.data.scatterplotgraphs);
-                // changeTimeSeriesNames(response.data.timeseriesnames);
-                // changeTimeSeriesCategory(response.data.timeseriescategory);
-                // changeNetworkGraph(response.data.networkGraph);
+                setPendingMessage("Computing correlations with "+ Object.keys(props.features).length +" other features")
+                const formData = new FormData();
+                formData.append('featureTimeSeriesValues', response.data.featureTimeSeriesValues);
+                formData.append('featurename', props.featureName);
+                axios.post(props.url+'exploremode/userfeature', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                }).then((response) => {
+                    setDashboardData(response.data)
+                    changeStat(1)
+                    changeIsPending(false);
+                })
             }
-            changeStat(response.data.stat)
-            changeIsPending(false);
+            else{
+                changeStat(response.data.stat)
+                changeIsPending(false);
+            }
+
         });
     }, []);
 
     return (
         <div>
-            {isPending && <Pageloader/>}
-            {/*{!isPending && stat === 1 &&*/}
-            {/*<Result tabledata={tableData} totalmatches={totalMatches} featurename={featurename} img={img}*/}
-            {/*        scatterPlotGraphs={scatterPlotGraphs} timeseriesnames={timeseriesnames} timeseriescategory={timeseriescategory} networkGraph={networkGraph}/>*/}
-            {/*}*/}
+            {isPending && <Pageloader pageloaderMessage={pendingMessage}/>}
             {!isPending && stat === 1 &&
             <Result {...dashboardData}/>
             }

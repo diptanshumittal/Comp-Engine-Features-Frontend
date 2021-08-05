@@ -7,7 +7,7 @@ import {Link} from "react-router-dom";
 
 const WarningPage = (props) => {
     return (
-        <div id="warningpage" className="container">
+        <div id="warningpage" className="container" style={{marginTop: "2%"}}>
             <div className="splitsection">
                 <div className="left">
                     <img src={img1}/>
@@ -33,10 +33,9 @@ const WarningPage = (props) => {
                         </li>
                     </ul>
                     <div className="notes">
-                        <p className="lead"><strong>If the problem persists, <Link to="/contact"
-                                                                                   onClick={props.addLinkCount}>Write us
-                            here </Link>raise
-                            an issue on <Link to="/" onClick={props.addLinkCount}>GitHub</Link></strong></p>
+                        <p className="lead"><strong>If the problem persists, <Link to="/contact" onClick={props.addLinkCount}>Write us
+                            here</Link> raise an issue
+                            on <a href="https://github.com/NeuralSystemsAndSignals/Comp-Engine-Features">GitHub</a></strong></p>
                     </div>
                 </div>
                 <div className="rightside">

@@ -1,5 +1,5 @@
 import {Link, useHistory} from "react-router-dom";
-import Nav_Link from "./Nav_Link";
+import NavLink from "./NavLink";
 import {connect} from "react-redux";
 import mapStateToProps from "../ReducerComponents/mapStateToProps";
 import mapDispatchToProps from "../ReducerComponents/mapDispatchToProps";
@@ -25,10 +25,10 @@ const Navbarcustom = (props) => {
                 </button>
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav mr-auto">
-                        <Nav_Link to="/" name="Home"/>
-                        <Nav_Link to="/howitworks" name="How it Works"/>
-                        <Nav_Link to="/explore" name="Explore"/>
-                        <Nav_Link to="/contact" name="Contact Us"/>
+                        <NavLink to="/" name="Home"/>
+                        <NavLink to="/howitworks" name="How it Works"/>
+                        <NavLink to="/explore" name="Explore"/>
+                        <NavLink to="/contact" name="Contact Us"/>
                         {/*<Nav_Link to="/contribute" name="Contribute"/>*/}
                     </ul>
                     <form className="form-inline" onSubmit={onSubmit}>

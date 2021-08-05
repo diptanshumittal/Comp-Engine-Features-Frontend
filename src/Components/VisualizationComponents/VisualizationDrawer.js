@@ -4,33 +4,32 @@ import mapDispatchToProps from "../ReducerComponents/mapDispatchToProps";
 import React from "react";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import ToggleButton from "@material-ui/lab/ToggleButton";
-import PlotlyComponent from "./PlotlyComponent";
 import CategoryPlot from "./CategoryPlot";
 import NetworkGraph from "./NetworkGraph";
 import ScatterPlotsGroup from "./ScatterPlotsGroup";
 
 
 const VisualizationDrawer = (props) => {
-    console.log(props)
+    // console.log(props)
     const [visualization, setVisualisation] = React.useState("scatterPlot");
     const setVisualization = (event, newAlignment) => {
         setVisualisation(newAlignment)
     }
-
+    const width = '33%'
     return (
         <div>
             <ToggleButtonGroup value={visualization} exclusive
                                onChange={setVisualization} style={{width: '100%'}}>
-                <ToggleButton value="scatterPlot" style={{width: '25%'}}>
+                <ToggleButton value="scatterPlot" style={{width: width}}>
                     Scatter Plot
                 </ToggleButton>
-                <ToggleButton value="categoryPlot" style={{width: '25%'}}>
+                <ToggleButton value="categoryPlot" style={{width: width}}>
                     Category Plot
                 </ToggleButton>
-                <ToggleButton value="heatmap" style={{width: '25%'}}>
-                    Heatmap
-                </ToggleButton>
-                <ToggleButton value="network" style={{width: '25%'}}>
+                {/*<ToggleButton value="heatmap" style={{width: width}}>*/}
+                {/*    Heatmap*/}
+                {/*</ToggleButton>*/}
+                <ToggleButton value="network" style={{width: width}}>
                     Network
                 </ToggleButton>
             </ToggleButtonGroup>

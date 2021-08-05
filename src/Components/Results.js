@@ -51,7 +51,7 @@ const Result = (props) => {
                     </li>
                     {props.codeFile !== undefined &&
                     <li className="list-group-item d-flex justify-content-between align-items-center">
-                        <b style={{marginRight: "50px"}}>Code File</b>
+                        <b style={{marginRight: "50px"}}><a href="https://github.com/benfulcher/hctsa"><i>hctsa</i></a>  Code File</b>
                         <Tooltip title={props.description}>
                             <Chip
                                 style={{backgroundColor: "#007bff", color: "#fff"}}

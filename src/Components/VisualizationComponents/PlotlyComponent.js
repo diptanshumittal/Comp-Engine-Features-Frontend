@@ -6,7 +6,19 @@ import mapStateToProps from "../ReducerComponents/mapStateToProps";
 import mapDispatchToProps from "../ReducerComponents/mapDispatchToProps";
 
 function PlotlyComponent({index, xdata, ydata, xtit, ytit, title, timeseriesnames}) {
-    const randomColor = Math.floor(Math.random()*16777215).toString(16);
+    let color, letters = '0123456789ABCDEF'.split('')
+    function AddDigitToColor(limit){
+        color += letters[Math.round(Math.random() * limit )]
+    }
+    function GetRandomColor() {
+        color = '#'
+        AddDigitToColor(3)
+        for (var i = 0; i < 5; i++) {
+            AddDigitToColor(15)
+        }
+        return color
+    }
+    const randomColor = GetRandomColor()
     const xData = [].concat(...xdata);
     const yData = [].concat(...ydata);
     const timeSeriesNames = [].concat(...timeseriesnames);
@@ -77,7 +89,7 @@ function PlotlyComponent({index, xdata, ydata, xtit, ytit, title, timeseriesname
         <Plot
             data={data}
             layout={layout}
-            config={{ modeBarButtonsToRemove: ['zoom2d', 'pan2d', 'select2d', 'zoomIn2d', 'zoomOut2d', 'autoScale2d', 'resetScale2d', 'hoverClosestCartesian', 'hoverCompareCartesian'],
+            config={{ modeBarButtonsToRemove: ['zoom2d', 'lasso2d', 'pan2d', 'select2d', 'zoomIn2d', 'zoomOut2d', 'autoScale2d', 'resetScale2d', 'hoverClosestCartesian', 'hoverCompareCartesian'],
                       displaylogo: false}}
         />
     );
