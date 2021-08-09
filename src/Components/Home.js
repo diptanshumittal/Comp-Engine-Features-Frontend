@@ -1,4 +1,4 @@
-import img1 from "../assets/img/compengine-infographic.png";
+import img1 from "../assets/img/comp-engine-features-schematic.svg";
 import {useState} from "react";
 import {Link, useHistory} from "react-router-dom"
 import {connect} from "react-redux";
