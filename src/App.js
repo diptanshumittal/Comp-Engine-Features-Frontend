@@ -15,11 +15,14 @@ import mapDispatchToProps from "./Components/ReducerComponents/mapDispatchToProp
 
 const App = (props) => {
     const [featureCode, setFeatureCode] = useState('');
+    const [language, setLanguage] = useState('');
     const [featureName, setFeatureName] = useState('Upload your .py file here');
-    const onFileSubmit = (featurecode, featurename) => {
-        setFeatureCode(featurecode);
-        setFeatureName(featurename);
+    const onFileSubmit = (featurecode, featurename, language) => {
+        setFeatureCode(featurecode)
+        setFeatureName(featurename)
+        setLanguage(language)
     }
+
     useEffect(() => {
         axios.get(props.url + 'getfeatures').then((response) => {
             // console.log(response)
@@ -57,7 +60,7 @@ const App = (props) => {
                         <Explore/>
                     </Route>
                     <Route exact path="/results">
-                        <UserFeatureSubmitted featureCode={featureCode} featureName={featureName}/>
+                        <UserFeatureSubmitted featureCode={featureCode} featureName={featureName} language={language}/>
                     </Route>
                 </Switch>
             </div>

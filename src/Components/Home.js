@@ -1,16 +1,33 @@
 import img1 from "../assets/img/comp-engine-features-schematic.svg";
-import {useState} from "react";
+import React, {useState} from "react";
 import {Link, useHistory} from "react-router-dom"
 import {connect} from "react-redux";
 import mapStateToProps from "./ReducerComponents/mapStateToProps";
 import mapDispatchToProps from "./ReducerComponents/mapDispatchToProps";
+import InputLabel from "@material-ui/core/InputLabel";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
+import TextField from '@material-ui/core/TextField';
+import FormControl from "@material-ui/core/FormControl";
+import {makeStyles} from "@material-ui/core/styles";
 
+const useStyles = makeStyles((theme) => ({
+    formControl: {
+        margin: theme.spacing(1),
+        minWidth: 120,
+    },
+    selectEmpty: {
+        marginTop: theme.spacing(2),
+    },
+}));
 
 const Home = (props) => {
+    const classes = useStyles();
     const hist = useHistory();
     const [file, setFile] = useState('');
-    const [filename, setFilename] = useState('Upload your .py file here');
-    const [featurename, setFeaturename] = useState('Upload your .py file here');
+    const [filename, setFilename] = useState('Upload your code file here');
+    const [featurename, setFeaturename] = useState('Upload your code file here');
+    const [language, setLanguage] = useState("Python");
 
     const onChangeName = e => {
         setFeaturename(e.target.value)
@@ -22,7 +39,7 @@ const Home = (props) => {
     };
     const onSubmit = e => {
         e.preventDefault();
-        props.sendData(file, featurename);
+        props.sendData(file, featurename, language);
         hist.push("/results");
     }
 
@@ -74,7 +91,7 @@ const Home = (props) => {
                                         onChange={onChangeName}
                                     />
                                     <small id="emailHelp" className="form-text text-muted">
-                                        Function name should be same as defined in python file.
+                                        Function name should be same as defined in code file.
                                     </small>
                                 </div>
 
@@ -93,6 +110,19 @@ const Home = (props) => {
                                         </label>
                                     </div>
                                 </div>
+
+                                <TextField
+                                    id="outlined-select-currency"
+                                    select
+                                    label="Select Language"
+                                    value={language}
+                                    onChange={(event) => {setLanguage(event.target.value)}}
+                                    variant="outlined"
+                                    style={{width:"150px", margin: "1.5rem 0"}}
+                                >
+                                    <MenuItem value={"Python"} key={"Python"}>{"Python"}</MenuItem>
+                                    <MenuItem value={"Julia"} key={"Julia"}>{"Julia"}</MenuItem>
+                                </TextField>
                                 <button
                                     type="submit"
                                     value="submit"

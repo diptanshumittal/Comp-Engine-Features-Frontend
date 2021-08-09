@@ -30,6 +30,7 @@ const UserFeatureSubmitted = (props) => {
         const formData = new FormData();
         formData.append('featurecode', props.featureCode);
         formData.append('featurename', props.featureName);
+        formData.append('language', props.language);
         axios.post(props.url+'codesubmit', formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
