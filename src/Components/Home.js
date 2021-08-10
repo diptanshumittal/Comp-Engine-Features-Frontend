@@ -12,12 +12,11 @@ import FormControl from "@material-ui/core/FormControl";
 import {makeStyles} from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
-    formControl: {
-        margin: theme.spacing(1),
-        minWidth: 120,
-    },
-    selectEmpty: {
-        marginTop: theme.spacing(2),
+    root: {
+        '& .MuiOutlinedInput-input': {
+            padding: "10px",
+            textAlign: "left",
+        },
     },
 }));
 
@@ -48,7 +47,8 @@ const Home = (props) => {
             <div id="homesec">
                 <div className="container">
                     <h1 className="display-1">CompEngine: Time-Series Features</h1>
-                    <p className="display-2" style={{paddingTop:"20px"}}>A self-organizing database of time-series analysis features</p>
+                    <p className="display-2" style={{paddingTop: "20px"}}>A self-organizing database of time-series
+                        analysis features</p>
                     <p className="lead">Welcome to CompEngine: Time-Series Features! Scientists have
                         developed thousands of methods to understand patterns in time-series data.
                         This website allows you to explore over 7000 such methods, or upload your own and
@@ -112,17 +112,20 @@ const Home = (props) => {
                                 </div>
 
                                 <TextField
-                                    id="outlined-select-currency"
+                                    className={classes.root}
                                     select
                                     label="Select Language"
                                     value={language}
-                                    onChange={(event) => {setLanguage(event.target.value)}}
+                                    onChange={(event) => {
+                                        setLanguage(event.target.value)
+                                    }}
                                     variant="outlined"
-                                    style={{width:"150px", margin: "1.5rem 0"}}
+                                    style={{width: "130px", margin: "1.5rem 0rem"}}
                                 >
-                                    <MenuItem value={"Python"} key={"Python"}>{"Python"}</MenuItem>
-                                    <MenuItem value={"Julia"} key={"Julia"}>{"Julia"}</MenuItem>
+                                    <MenuItem dense="true" value={"Python"} key={"Python"}>{"Python"}</MenuItem>
+                                    <MenuItem dense="true" value={"Julia"} key={"Julia"}>{"Julia"}</MenuItem>
                                 </TextField>
+
                                 <button
                                     type="submit"
                                     value="submit"

@@ -19,7 +19,7 @@ const Contact = () => {
                     and is currently led by Ben Fulcher at the <a rel="noreferrer" target="_blank" href="https://dynamicsandneuralsystems.github.io">Neural Systems and Signals Group</a>.
                     We aim to continue to refine this website to incorporate developments in our research.
                     This website was developed with support from Google via the Google Summer of  Code Program:
-                    front-end and back-end development of this website was done by Salman Khan (2020) and Diptanshu Mittal (2021),
+                    front-end and back-end development of this website was done by Salman Khan (2020) and <a rel="noreferrer" target="_blank" href="https://diptanshumittal.github.io/portfolio-website/">Diptanshu Mittal</a> (2021),
                     supervised by Ben Fulcher and Oliver Cliff at The University of Sydney.
                 </li>
                 <li>
