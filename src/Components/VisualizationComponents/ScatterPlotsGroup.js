@@ -75,7 +75,7 @@ const PrettoSlider = withStyles({
 
 const ScatterPlotsGroup = (props) => {
     const [state, setState] = useState(true)
-    const [totalPlots, setTotalPlots] = useState(3)
+    const [totalPlots, setTotalPlots] = useState(6)
     // console.log(props)
     return (
         <div>
